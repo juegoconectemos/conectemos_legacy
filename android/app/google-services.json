@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "678684457575",
+    "firebase_url": "https://conectemos-97022.firebaseio.com",
+    "project_id": "conectemos-97022",
+    "storage_bucket": "conectemos-97022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678684457575:android:330a273a7e420242a4f2c2",
+        "android_client_info": {
+          "package_name": "cl.chihau.conectemos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678684457575-pfub8s2jmducpq7qf9nb9lrg3h20jnmc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cl.chihau.conectemos",
+            "certificate_hash": "8ca36e723b4b8314713ef4d8b8b262039ea691ac"
+          }
+        },
+        {
+          "client_id": "678684457575-vtbo4vl6h7kuma13ps1m107ulogsvred.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZsJI2RxGVdw1Agde5nqBG2FGr0hPLO9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678684457575-vtbo4vl6h7kuma13ps1m107ulogsvred.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
