@@ -93,7 +93,7 @@ class _Screen1State extends State<Screen1> {
             RaisedButton(
               onPressed: () {
                 // Falta chequear que la partida existe (código es válido)
-                if (codigoPartida != null && codigoPartida != '') {
+                /*if (codigoPartida != null && codigoPartida != '') {
                   FirebaseFirestore.instance
                       .collection('partidas')
                       .doc(codigoPartida)
@@ -107,7 +107,10 @@ class _Screen1State extends State<Screen1> {
                 } else {
                   print(
                       'Screen1 - La partida con código $codigoPartida no es válido');
-                }
+                }*/
+
+                Navigator.pushNamed(context, '/screen2',
+                    arguments: codigoPartida);
               },
               child: const Text('Entrar', style: TextStyle(fontSize: 20)),
             ),
