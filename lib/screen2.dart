@@ -16,19 +16,19 @@ class _Screen2State extends State<Screen2> {
   void initState() {
     super.initState();
     Firebase.initializeApp().whenComplete(() {
-      print("completed");
+      print("Screen2 - Firebase Iniciado");
+      codigoPartida = ModalRoute.of(context).settings.arguments;
+      if (codigoPartida != null) {
+        print('Screen2 - codigoPartida ' + codigoPartida);
+      } else {
+        print('Screen2 - codigoPartida NULL');
+      }
       setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    codigoPartida = ModalRoute.of(context).settings.arguments;
-    if (codigoPartida == null) {
-      codigoPartida = 'NULL';
-    }
-    print('codigoPartida Iniciada: ' + codigoPartida);
-
     return Scaffold(
       appBar: AppBar(title: Text('Partida Iniciada')),
       body: _buildBody(context),
@@ -44,7 +44,7 @@ class _Screen2State extends State<Screen2> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
 
-        return _buildList(context, snapshot.data.documents);
+        return _buildList(context, snapshot.data.docs);
       },
     );
   }
@@ -60,7 +60,7 @@ class _Screen2State extends State<Screen2> {
     final jugador = Jugador.fromSnapshot(data);
 
     return Padding(
-      key: ValueKey(jugador.name),
+      //key: ValueKey(jugador.name), <--investigar para qué sirve esto
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(

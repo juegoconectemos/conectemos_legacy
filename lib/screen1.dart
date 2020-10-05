@@ -20,8 +20,8 @@ class _Screen1State extends State<Screen1> {
     DocumentReference documentRef = await FirebaseFirestore.instance
         .collection('partidas')
         .add({'timestamp': FieldValue.serverTimestamp()});
-    print(documentRef.documentID);
-    codigoPartida = documentRef.documentID;
+    print("Screen1 - Partida nueva creada: " + documentRef.id);
+    codigoPartida = documentRef.id;
     myController.text = codigoPartida;
   }
 
@@ -29,24 +29,23 @@ class _Screen1State extends State<Screen1> {
   void initState() {
     super.initState();
     Firebase.initializeApp().whenComplete(() {
-      print("completed");
+      print("Screen1 - Firebase Iniciado");
+      Map args = ModalRoute.of(context).settings.arguments;
+      if (args['nueva_partida'] != null) {
+        esNuevaPartida = args['nueva_partida'];
+        if (esNuevaPartida == true) {
+          print('Screen1 - Creando nueva partida...');
+          createPartida();
+        } else {
+          print('Screen1 - No es nueva partida');
+        }
+      }
       setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Map args = ModalRoute.of(context).settings.arguments;
-    if (args['nueva_partida'] != null) {
-      esNuevaPartida = args['nueva_partida'];
-      if (esNuevaPartida == true) {
-        print('nueva partida');
-        createPartida();
-      } else {
-        print('no es nueva partida');
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
           title: esNuevaPartida
@@ -87,7 +86,7 @@ class _Screen1State extends State<Screen1> {
                 ),
                 onLongPress: () {
                   Clipboard.setData(ClipboardData(text: codigoPartida));
-                  print('Texto copiado');
+                  print('Screen1 - Texto copiado');
                 },
               ),
             ),
@@ -97,12 +96,17 @@ class _Screen1State extends State<Screen1> {
                 if (codigoPartida != null && codigoPartida != '') {
                   FirebaseFirestore.instance
                       .collection('partidas')
-                      .document(codigoPartida)
+                      .doc(codigoPartida)
                       .collection('jugadores')
-                      .add({'nombre': 'Anisa'});
+                      .add({'nombre': 'Anisa'}).then((documentRef) => print(
+                          'Screen1 - Ingresado en la partida $codigoPartida jugador ' +
+                              documentRef.id));
 
                   Navigator.pushNamed(context, '/screen2',
                       arguments: codigoPartida);
+                } else {
+                  print(
+                      'Screen1 - La partida con código $codigoPartida no es válido');
                 }
               },
               child: const Text('Entrar', style: TextStyle(fontSize: 20)),
