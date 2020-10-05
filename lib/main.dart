@@ -2,10 +2,19 @@
 
 import 'package:conectemos/screen1.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'screen0.dart';
 import 'screen2.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // Para que la app entera funcione sólo en portrait mode
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
