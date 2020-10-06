@@ -17,6 +17,7 @@ class Screen2 extends StatefulWidget {
 class _Screen2State extends State<Screen2> with WidgetsBindingObserver {
   String codigoPartida;
   String codigoJugador;
+  String nombreJugador;
 
   StreamSubscription<Event> subscription;
   //Contiene a todos los UIDs de los usuarios que están actualmente conectados
@@ -56,7 +57,7 @@ class _Screen2State extends State<Screen2> with WidgetsBindingObserver {
           .collection('partidas')
           .doc(codigoPartida)
           .collection('jugadores')
-          .add({'nombre': 'Anisa'}).then((documentRef) {
+          .add({'nombre': nombreJugador}).then((documentRef) {
         codigoJugador = documentRef.id;
         print('Screen2 - Ingresado en la partida $codigoPartida jugador ' +
             codigoJugador);
@@ -100,12 +101,22 @@ class _Screen2State extends State<Screen2> with WidgetsBindingObserver {
 
     Firebase.initializeApp().whenComplete(() async {
       print("Screen2 - Firebase Iniciado");
-      codigoPartida = ModalRoute.of(context).settings.arguments;
+      Map args = ModalRoute.of(context).settings.arguments;
+      codigoPartida = args['codigoPartida'];
+      nombreJugador = args['nombreJugador'];
+
       if (codigoPartida != null) {
         print('Screen2 - codigoPartida ' + codigoPartida);
       } else {
         print('Screen2 - codigoPartida NULL');
       }
+
+      if (codigoPartida != null) {
+        print('Screen2 - codigoPartida ' + codigoPartida);
+      } else {
+        print('Screen2 - codigoPartida NULL');
+      }
+
       String deviceId = await _getId();
       print('Screen2 - id único del dispositivo: ' + deviceId);
       myidRef = FirebaseDatabase.instance.reference().child('users/$deviceId');

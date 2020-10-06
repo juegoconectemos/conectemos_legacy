@@ -14,7 +14,10 @@ class _Screen1State extends State<Screen1> {
   bool esNuevaPartida;
   String codigoPartida = '';
 
-  TextEditingController myController = TextEditingController()..text = '';
+  TextEditingController codigoPartidaController = TextEditingController()
+    ..text = '';
+  TextEditingController nombreJugadorController = TextEditingController()
+    ..text = '';
 
   void createPartida() async {
     DocumentReference documentRef = await FirebaseFirestore.instance
@@ -22,7 +25,7 @@ class _Screen1State extends State<Screen1> {
         .add({'timestamp': FieldValue.serverTimestamp()});
     print("Screen1 - Partida nueva creada: " + documentRef.id);
     codigoPartida = documentRef.id;
-    myController.text = codigoPartida;
+    codigoPartidaController.text = codigoPartida;
   }
 
   @override
@@ -68,11 +71,11 @@ class _Screen1State extends State<Screen1> {
               padding: const EdgeInsets.fromLTRB(30, 10, 30, 50),
               child: GestureDetector(
                 child: TextField(
-                  controller: myController,
+                  controller: codigoPartidaController,
 
-                  onChanged: (value) {
+                  /*onChanged: (value) {
                     codigoPartida = value;
-                  },
+                  },*/
                   autofocus: true,
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.text,
@@ -81,6 +84,40 @@ class _Screen1State extends State<Screen1> {
                     fontSize: 20,
                   ),
                   enabled: esNuevaPartida ? false : true,
+                  //focusNode: FocusNode(),
+                  //enableInteractiveSelection: false,
+                ),
+                onLongPress: () {
+                  Clipboard.setData(ClipboardData(text: codigoPartida));
+                  print('Screen1 - Texto copiado');
+                },
+              ),
+            ),
+            Text(
+              "Nombre del Jugador",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30, 10, 30, 50),
+              child: GestureDetector(
+                child: TextField(
+                  controller: nombreJugadorController,
+
+                  /*onChanged: (value) {
+                    codigoPartida = value;
+                  },*/
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.text,
+                  //inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  //enabled: esNuevaPartida ? false : true,
                   //focusNode: FocusNode(),
                   //enableInteractiveSelection: false,
                 ),
@@ -108,9 +145,18 @@ class _Screen1State extends State<Screen1> {
                   print(
                       'Screen1 - La partida con código $codigoPartida no es válido');
                 }*/
+                //Navigator.pushNamed(context, '/screen2',
+                //    arguments: codigoPartida);
 
-                Navigator.pushNamed(context, '/screen2',
-                    arguments: codigoPartida);
+                if (codigoPartidaController.text != null &&
+                    nombreJugadorController.text != null &&
+                    codigoPartidaController.text != '' &&
+                    nombreJugadorController.text != '') {
+                  Navigator.pushNamed(context, '/screen2', arguments: {
+                    'codigoPartida': codigoPartidaController.text,
+                    'nombreJugador': nombreJugadorController.text,
+                  });
+                }
               },
               child: const Text('Entrar', style: TextStyle(fontSize: 20)),
             ),
