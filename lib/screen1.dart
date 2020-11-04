@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conectemos/session.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share/share.dart';
 
 class Screen1 extends StatefulWidget {
   @override
@@ -12,7 +14,6 @@ class Screen1 extends StatefulWidget {
 
 class _Screen1State extends State<Screen1> {
   bool esNuevaPartida;
-  String codigoPartida = '';
 
   TextEditingController codigoPartidaController = TextEditingController()
     ..text = '';
@@ -20,12 +21,17 @@ class _Screen1State extends State<Screen1> {
     ..text = '';
 
   void createPartida() async {
-    DocumentReference documentRef = await FirebaseFirestore.instance
-        .collection('partidas')
-        .add({'timestamp': FieldValue.serverTimestamp()});
-    print("Screen1 - Partida nueva creada: " + documentRef.id);
-    codigoPartida = documentRef.id;
-    codigoPartidaController.text = codigoPartida;
+    DocumentReference documentRef =
+        await FirebaseFirestore.instance.collection('partidas').add({
+      'pregunta': '',
+      'responde': '',
+      'textoPregunta': '',
+      'timestamp': FieldValue.serverTimestamp(),
+      'turno': 0,
+    });
+    Session.codigoPartida = documentRef.id;
+    print("Screen1 - Partida nueva creada: " + Session.codigoPartida);
+    codigoPartidaController.text = Session.codigoPartida;
   }
 
   @override
@@ -72,23 +78,16 @@ class _Screen1State extends State<Screen1> {
               child: GestureDetector(
                 child: TextField(
                   controller: codigoPartidaController,
-
-                  /*onChanged: (value) {
-                    codigoPartida = value;
-                  },*/
                   autofocus: true,
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.text,
-                  //inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                   style: TextStyle(
                     fontSize: 20,
                   ),
                   enabled: esNuevaPartida ? false : true,
-                  //focusNode: FocusNode(),
-                  //enableInteractiveSelection: false,
                 ),
                 onLongPress: () {
-                  Clipboard.setData(ClipboardData(text: codigoPartida));
+                  Clipboard.setData(ClipboardData(text: Session.codigoPartida));
                   print('Screen1 - Texto copiado');
                 },
               ),
@@ -106,27 +105,20 @@ class _Screen1State extends State<Screen1> {
               child: GestureDetector(
                 child: TextField(
                   controller: nombreJugadorController,
-
-                  /*onChanged: (value) {
-                    codigoPartida = value;
-                  },*/
                   autofocus: true,
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.text,
-                  //inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                   style: TextStyle(
                     fontSize: 20,
                   ),
-                  //enabled: esNuevaPartida ? false : true,
-                  //focusNode: FocusNode(),
-                  //enableInteractiveSelection: false,
                 ),
                 onLongPress: () {
-                  Clipboard.setData(ClipboardData(text: codigoPartida));
+                  Clipboard.setData(ClipboardData(text: Session.codigoPartida));
                   print('Screen1 - Texto copiado');
                 },
               ),
             ),
+            // Botón Entrar
             RaisedButton(
               onPressed: () {
                 // Falta chequear que la partida existe (código es válido)
@@ -152,10 +144,23 @@ class _Screen1State extends State<Screen1> {
                     nombreJugadorController.text != null &&
                     codigoPartidaController.text != '' &&
                     nombreJugadorController.text != '') {
-                  Navigator.pushNamed(context, '/screen2', arguments: {
-                    'codigoPartida': codigoPartidaController.text,
-                    'nombreJugador': nombreJugadorController.text,
-                  });
+                  // FALTA VALIDAR EL NOMBRE DEL JUGADOR Y QUE NO ESTE OCUPADO POR OTRO JUGADOR EN LA MISMA PARTIDA
+
+                  Session.nombreJugador = nombreJugadorController.text;
+                  Session.codigoPartida = codigoPartidaController.text;
+
+                  FirebaseFirestore.instance
+                      .collection('partidas')
+                      .doc(codigoPartidaController.text)
+                      .update({
+                    'jugadores':
+                        FieldValue.arrayUnion([nombreJugadorController.text])
+                  }).then(
+                    (value) => {
+                      Navigator.pushNamed(context, '/screen3'),
+                    },
+                  );
+                  // ME ESTOY SALTANDO EL SCREEN2
                 }
               },
               child: const Text('Entrar', style: TextStyle(fontSize: 20)),
@@ -163,8 +168,28 @@ class _Screen1State extends State<Screen1> {
             SizedBox(
               height: 20,
             ),
+            // Botón invitar
             RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                String codPart = codigoPartidaController.text;
+                if (codPart != null && codPart != '') {
+                  FirebaseFirestore.instance
+                      .collection('partidas')
+                      .doc(codPart)
+                      .get()
+                      .then((doc) {
+                    if (doc.exists) {
+                      print('Screen1 - Sí existe la partida $codPart');
+                      Share.share(
+                          "¡Hola, te invito a jugar Conectemos! el código de la partida es $codPart");
+                    } else {
+                      print('Screen1 - No existe la partida $codPart');
+                    }
+                  });
+                } else {
+                  print('Screen1 - La partida $codPart es inválida');
+                }
+              },
               child: const Text('Invitar', style: TextStyle(fontSize: 20)),
             ),
           ],

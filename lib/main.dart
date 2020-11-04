@@ -1,6 +1,9 @@
 // https://github.com/cgustav/dart_rut_validator/issues/2
 
 import 'package:conectemos/screen1.dart';
+import 'package:conectemos/screen3.dart';
+import 'package:conectemos/screen4.dart';
+import 'package:conectemos/screen5.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screen0.dart';
@@ -23,13 +26,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Conectemos',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
       initialRoute: '/',
       routes: {
         '/': (context) => Screen0(),
         '/screen1': (context) => Screen1(),
         '/screen2': (context) => Screen2(),
+        '/screen3': (context) => Screen3(),
+        '/screen4': (context) => Screen4(),
+        '/screen5': (context) => Screen5(),
       },
     );
   }

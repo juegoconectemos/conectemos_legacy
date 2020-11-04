@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conectemos/session.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -15,18 +16,17 @@ class Screen2 extends StatefulWidget {
 }
 
 class _Screen2State extends State<Screen2> with WidgetsBindingObserver {
-  String codigoPartida;
   String codigoJugador;
-  String nombreJugador;
 
   StreamSubscription<Event> subscription;
   //Contiene a todos los UIDs de los usuarios que están actualmente conectados
   //a realtime database
   DatabaseReference connectedlistRef =
       FirebaseDatabase.instance.reference().child('.info/connected');
-  // DatabaseReference myidRef = myidRef = FirebaseDatabase.instance.reference().child('users/$deviceId');
+  DatabaseReference myidRef =
+      FirebaseDatabase.instance.reference().child('users/mymobilenumber');
 
-  DatabaseReference myidRef;
+  //DatabaseReference myidRef;
 
   bool localIOnlineIndicator = false;
   //just to indicate you are online or offline on your Homepage
@@ -52,32 +52,35 @@ class _Screen2State extends State<Screen2> with WidgetsBindingObserver {
 
   void agregarJugadorPartida() {
     // Falta chequear que la partida existe (código es válido)
-    if (codigoPartida != null && codigoPartida != '') {
+    if (Session.codigoPartida != null && Session.codigoPartida != '') {
       FirebaseFirestore.instance
           .collection('partidas')
-          .doc(codigoPartida)
+          .doc(Session.codigoPartida)
           .collection('jugadores')
-          .add({'nombre': nombreJugador}).then((documentRef) {
+          .add({'nombre': Session.nombreJugador}).then((documentRef) {
         codigoJugador = documentRef.id;
-        print('Screen2 - Ingresado en la partida $codigoPartida jugador ' +
-            codigoJugador);
+        print(
+            'Screen2 - Ingresado en la partida ${Session.codigoPartida} jugador ' +
+                codigoJugador);
       });
     } else {
-      print('Screen2 - La partida con código $codigoPartida no es válido');
+      print(
+          'Screen2 - La partida con código ${Session.codigoPartida} no es válido');
     }
   }
 
   void eliminarJugadorPartida() {
     // Falta chequear que la partida existe (código es válido)
-    if (codigoPartida != null && codigoPartida != '') {
+    if (Session.codigoPartida != null && Session.codigoPartida != '') {
       FirebaseFirestore.instance
           .collection('partidas')
-          .doc(codigoPartida)
+          .doc(Session.codigoPartida)
           .collection('jugadores')
           .doc(codigoJugador)
           .delete();
     } else {
-      print('Screen2 - La partida con código $codigoPartida no es válido');
+      print(
+          'Screen2 - La partida con código ${Session.codigoPartida} no es válido');
     }
   }
 
@@ -99,27 +102,12 @@ class _Screen2State extends State<Screen2> with WidgetsBindingObserver {
 
     super.initState();
 
-    Firebase.initializeApp().whenComplete(() async {
+    Firebase.initializeApp().whenComplete(() {
       print("Screen2 - Firebase Iniciado");
-      Map args = ModalRoute.of(context).settings.arguments;
-      codigoPartida = args['codigoPartida'];
-      nombreJugador = args['nombreJugador'];
 
-      if (codigoPartida != null) {
-        print('Screen2 - codigoPartida ' + codigoPartida);
-      } else {
-        print('Screen2 - codigoPartida NULL');
-      }
-
-      if (codigoPartida != null) {
-        print('Screen2 - codigoPartida ' + codigoPartida);
-      } else {
-        print('Screen2 - codigoPartida NULL');
-      }
-
-      String deviceId = await _getId();
-      print('Screen2 - id único del dispositivo: ' + deviceId);
-      myidRef = FirebaseDatabase.instance.reference().child('users/$deviceId');
+      //String deviceId = await _getId();
+      //print('Screen2 - id único del dispositivo: ' + deviceId);
+      //myidRef = FirebaseDatabase.instance.reference().child('users/$deviceId');
 
       WidgetsBinding.instance.addObserver(this);
 
@@ -156,7 +144,7 @@ class _Screen2State extends State<Screen2> with WidgetsBindingObserver {
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-          .collection('partidas/' + codigoPartida + '/jugadores')
+          .collection('partidas/' + Session.codigoPartida + '/jugadores')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
@@ -193,6 +181,12 @@ class _Screen2State extends State<Screen2> with WidgetsBindingObserver {
     );
   }
 
+  // AL PARECER LOS PROBLEMAS CON LA DETECCION DE LA DESCONEXION ESTAN AQUI
+  // Al parecer tienen que ver con que el
+  // bool myStatus = dataSnapshot.value;
+  // a veces no es tan rápido de obtener el valor true, por lo que al retornar
+  // false se elimina el jugador de la partida
+  // Revisar si sacando el myidRed.onDisconnect del if-else se soluciona
   void handlerFunction(Event event) {
     DataSnapshot dataSnapshot = event.snapshot;
     // Si (.info/connected) retorna true si hay conexión y false si no hay
