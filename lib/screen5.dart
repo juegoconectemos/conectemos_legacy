@@ -35,8 +35,9 @@ class _Screen5State extends State<Screen5> {
         textoPregunta = doc.get('textoPregunta');
 
         if (responde.isEmpty && pregunta.isEmpty && textoPregunta.isEmpty) {
-          // Ocurre, cuando el usuario que pregunta, está conforme con la respuesta y presionado OK
+          // Ocurre cuando el usuario que pregunta está conforme con la respuesta y presionado OK
           Navigator.pushReplacementNamed(context, '/screen3');
+          // Hace que se cierre el screen5 a todos los jugadores
         } else {
           if (nombreJugador == pregunta) {
             iguales = true;
@@ -52,7 +53,7 @@ class _Screen5State extends State<Screen5> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Screen5')),
+      appBar: AppBar(title: Text('Screen5 - $nombreJugador')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,7 +72,6 @@ class _Screen5State extends State<Screen5> {
                             .get()
                             .then((doc) {
                           jugadores = doc.get('jugadores');
-                          print(jugadores.toString());
                           int turno = Random().nextInt(jugadores.length);
 
                           DocumentReference partidaRef = FirebaseFirestore
@@ -87,7 +87,8 @@ class _Screen5State extends State<Screen5> {
                           })
                               //.then((value) => Navigator.pushReplacementNamed(
                               //    context, '/screen3'))
-                              .catchError((error) => print("$error"));
+                              .catchError(
+                                  (error) => print("Screen5 - Error: $error"));
                         });
                       }
                     : null,

@@ -24,7 +24,7 @@ class _Screen3State extends State<Screen3> {
   void initState() {
     super.initState();
     Firebase.initializeApp().whenComplete(() {
-      print(Session.codigoPartida);
+      print('Screen3 - código de la partida: ' + Session.codigoPartida);
 
       FirebaseFirestore.instance
           .collection('partidas')
@@ -32,7 +32,8 @@ class _Screen3State extends State<Screen3> {
           .snapshots()
           .listen((doc) {
         jugadores = doc.get('jugadores');
-        print(jugadores.toString());
+        print('Screen3 - Listado de jugadores actualizado: ' +
+            jugadores.toString());
         int turno = doc.get('turno');
 
         nombreJugadorTurno = jugadores[turno];
@@ -51,8 +52,8 @@ class _Screen3State extends State<Screen3> {
         if (responde.isNotEmpty && pregunta.isNotEmpty) {
           Navigator.pushReplacementNamed(context, '/screen4');
         } else {
-          print("responde no está definido aún");
-          print("pregunta no está definido aún");
+          print('Screen3 - responde no está definido aún');
+          print('Screen3 - pregunta no está definido aún');
         }
 
         setState(() {});
@@ -63,52 +64,110 @@ class _Screen3State extends State<Screen3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Screen3')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('Turno: ' + nombreJugadorTurno),
-          Text('Elige tu comodín'),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              RaisedButton(
-                onPressed: iguales
-                    ? () {
-                        _showMessageDialogRespondo(
-                            context, 'Elige quién pregunta');
-                      }
-                    : null,
-                child: const Text('R', style: TextStyle(fontSize: 20)),
-              ),
-              RaisedButton(
-                onPressed: iguales
-                    ? () {
-                        FirebaseFirestore.instance
-                            .collection('partidas')
-                            //.doc('zwdlumIJuXKNVTXHiRYP')
-                            .doc(Session.codigoPartida)
-                            .update({
-                          'responde': 'TODOS',
-                          'pregunta': nombreJugadorTurno
-                        });
-                      }
-                    : null,
-                child: const Text('T', style: TextStyle(fontSize: 20)),
-              ),
-              RaisedButton(
-                onPressed: iguales
-                    ? () {
-                        _showMessageDialogPregunto(
-                            context, 'Elige quién responde');
-                      }
-                    : null,
-                child: const Text('P', style: TextStyle(fontSize: 20)),
-              ),
+      //appBar: AppBar(title: Text('Screen3 - $nombreJugador')),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.blue,
+              Colors.red,
             ],
-          )
-        ],
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            //Text('Turno: ' + nombreJugadorTurno),
+            Column(
+              children: [
+                Text(
+                  'TURNO',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15),
+                ),
+                Stack(alignment: Alignment.center, children: <Widget>[
+                  Image.asset(
+                    'assets/barra_jugador_verde.png',
+                    width: 200,
+                  ),
+                  Text(
+                    nombreJugadorTurno,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ]),
+              ],
+            ),
+
+            //Text('Elige tu comodín'),
+
+            Stack(alignment: Alignment.center, children: <Widget>[
+              Image.asset(
+                'assets/disco_central_para_texto2.png',
+                width: 200,
+              ),
+              Text(
+                'ELIJE TU\nCOMODÍN',
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
+              ),
+            ]),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: iguales
+                      ? Image.asset('assets/icono_respondo.png')
+                      : Image.asset('assets/icono_respondo_opaco.png'),
+                  iconSize: 100,
+                  onPressed: iguales
+                      ? () {
+                          _showMessageDialogRespondo(
+                              context, 'Elige quién pregunta');
+                        }
+                      : null,
+                ),
+                IconButton(
+                  icon: iguales
+                      ? Image.asset('assets/icono_todos.png')
+                      : Image.asset('assets/icono_todos_opaco.png'),
+                  iconSize: 100,
+                  onPressed: iguales
+                      ? () {
+                          FirebaseFirestore.instance
+                              .collection('partidas')
+                              //.doc('zwdlumIJuXKNVTXHiRYP')
+                              .doc(Session.codigoPartida)
+                              .update({
+                            'responde': 'TODOS',
+                            'pregunta': nombreJugadorTurno
+                          });
+                        }
+                      : null,
+                ),
+                IconButton(
+                  icon: iguales
+                      ? Image.asset('assets/icono_pregunto.png')
+                      : Image.asset('assets/icono_pregunto_opaco.png'),
+                  iconSize: 100,
+                  onPressed: iguales
+                      ? () {
+                          _showMessageDialogPregunto(
+                              context, 'Elige quién responde');
+                        }
+                      : null,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

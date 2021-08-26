@@ -6,11 +6,34 @@ import 'package:flutter/material.dart';
 
 String nombreJugador = Session.nombreJugador;
 
-List<String> preguntas = [
+/*List<String> preguntas = [
   '¿Quién es tu mejor amigo?',
   '¿Cuál es tu color favorito?',
   '¿Cuál es tu fruta favorita?'
+];*/
+List<String> preguntas = [
+  '¿Te gustan los cambios o te resistes?',
+  '¿Que tanto te conoce la gente que te rodea?',
+  '¿Sueles vivir más en el presente, pasado o futuro?',
+  '¿El desafío más complejo?',
+  '¿Te gustaría viajar en astral y salir de tu cuerpo, o preferirías no vivir esa experiencia?',
+  '¿De qué dudas?',
+  '¿Quién es la mejor persona que conoces?',
+  '¿La aventura es parte de tu vida?',
+  '¿La mejor noticia que has recibido?',
+  '¿Que extrañas del pasado?',
+  '¿Cómo es la relación con tu madre?',
+  '¿Si todo es posible, que te gustaría se hiciera realidad?',
+  '¿Te gusta lo que estás viviendo?',
+  '¿Cómo imaginas lo que viene después de la muerte?',
+  '¿Qué te inspira?',
+  '¿Qué te intriga?',
+  '¿Tienes alguna conversación pendiente?',
+  '¿Quién o qué te alegra la vida?',
+  'Un libro o una película significativa para ti',
+  '¿Qué es imprescindible para ti?',
 ];
+
 String pregunta = "";
 String responde = "";
 
@@ -32,9 +55,9 @@ class _Screen4State extends State<Screen4> {
           .snapshots()
           .listen((doc) {
         responde = doc.get('responde');
-        print('responde: ' + responde);
+        print('Screen4 - responde: ' + responde);
         pregunta = doc.get('pregunta');
-        print('pregunta: ' + pregunta);
+        print('Screen4 - pregunta: ' + pregunta);
 
         if (nombreJugador == pregunta) {
           iguales = true;
@@ -47,7 +70,7 @@ class _Screen4State extends State<Screen4> {
         if (textoPregunta.isNotEmpty) {
           Navigator.pushReplacementNamed(context, '/screen5');
         } else {
-          print("textoPregunta no está definido aún");
+          print('Screen4 - textoPregunta no está definido aún');
         }
       });
       setState(() {}); // NO SE SI VA DENTRO DEL {} anterior o no
@@ -57,7 +80,7 @@ class _Screen4State extends State<Screen4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Screen4')),
+      appBar: AppBar(title: Text('Screen4 - $nombreJugador')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,

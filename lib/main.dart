@@ -4,8 +4,10 @@ import 'package:conectemos/screen1.dart';
 import 'package:conectemos/screen3.dart';
 import 'package:conectemos/screen4.dart';
 import 'package:conectemos/screen5.dart';
+import 'package:conectemos/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'instructions.dart';
 import 'screen0.dart';
 import 'screen2.dart';
 
@@ -30,12 +32,14 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => Screen0(),
+        '/': (context) => Splash(),
+        '/screen0': (context) => Screen0(),
         '/screen1': (context) => Screen1(),
         '/screen2': (context) => Screen2(),
         '/screen3': (context) => Screen3(),
         '/screen4': (context) => Screen4(),
         '/screen5': (context) => Screen5(),
+        '/instructions': (context) => Instructions(),
       },
     );
   }
