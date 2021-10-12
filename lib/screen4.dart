@@ -1,16 +1,63 @@
+import 'package:circle_list/circle_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conectemos/screen5.dart';
 import 'package:conectemos/session.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-String nombreJugador = Session.nombreJugador;
+List<Image> circulos = [
+  Image.asset(
+    'assets/jugador_amarillo.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_azul.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_calipso.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_naranjo.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_negro.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_pistacho.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_rojo.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_rosado.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_verde_musgo.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_verde.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_violeta.png',
+    width: 70,
+  ),
+  Image.asset(
+    'assets/jugador_morado_con_circulo.png',
+    width: 70,
+  )
+];
 
-/*List<String> preguntas = [
-  '¿Quién es tu mejor amigo?',
-  '¿Cuál es tu color favorito?',
-  '¿Cuál es tu fruta favorita?'
-];*/
+String nombreJugador = '';
+
 List<String> preguntas = [
   '¿Te gustan los cambios o te resistes?',
   '¿Que tanto te conoce la gente que te rodea?',
@@ -59,11 +106,13 @@ class _Screen4State extends State<Screen4> {
         pregunta = doc.get('pregunta');
         print('Screen4 - pregunta: ' + pregunta);
 
+        nombreJugador = Session.nombreJugador;
         if (nombreJugador == pregunta) {
           iguales = true;
         } else {
           iguales = false;
         }
+        print('Screen4 - iguales: ' + iguales.toString());
 
         textoPregunta = doc.get('textoPregunta');
 
@@ -80,28 +129,127 @@ class _Screen4State extends State<Screen4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Screen4 - $nombreJugador')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('Responde: ' + responde),
-          Text('Pregunta: ' + pregunta),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              RaisedButton(
-                onPressed: iguales
-                    ? () {
-                        _showMessageDialog(context, 'Elige la pregunta');
-                      }
-                    : null,
-                child: const Text('Elegir pregunta',
-                    style: TextStyle(fontSize: 20)),
-              ),
+      //appBar: AppBar(title: Text('Screen4 - $nombreJugador')),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.blue,
+              Colors.red,
             ],
-          )
-        ],
+          ),
+        ),
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            //Text('Responde: ' + responde),
+            Column(
+              children: [
+                (responde == 'TODOS')
+                    ? Text(
+                        'RESPONDEN',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15),
+                      )
+                    : Text(
+                        'RESPONDE',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15),
+                      ),
+                Stack(alignment: Alignment.center, children: <Widget>[
+                  (responde == 'TODOS')
+                      ? Image.asset(
+                          'assets/barra_con_color_todos_responden.png',
+                          width: 200,
+                        )
+                      : Image.asset(
+                          'assets/barra_jugador_morado.png',
+                          width: 200,
+                        ),
+                  Text(
+                    responde,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ]),
+              ],
+            ),
+            CircleList(
+              origin: Offset(0, 0),
+              innerRadius: 80,
+              outerRadius: 180,
+              rotateMode: RotateMode.stopRotate,
+              children: circulos,
+              centerWidget: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  (responde == 'TODOS')
+                      ? Image.asset(
+                          'assets/disco_central_para_todos.png',
+                          width: 200,
+                        )
+                      : Image.asset(
+                          'assets/disco_central_para_uno.png',
+                          width: 200,
+                        ),
+                ],
+              ),
+            ),
+            //Text('Pregunta: ' + pregunta),
+            Column(
+              children: [
+                Text(
+                  'PREGUNTA',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15),
+                ),
+                Stack(alignment: Alignment.center, children: <Widget>[
+                  Image.asset(
+                    'assets/barra_jugador_morado.png',
+                    //'assets/barra_nombre.png',
+                    width: 200,
+                  ),
+                  Text(
+                    pregunta,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ]),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Image.asset('assets/icono_tus_cartas.png'),
+                  iconSize: 70,
+                  onPressed: iguales
+                      ? () {
+                          _showMessageDialog(context, 'Elige la pregunta');
+                        }
+                      : null,
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

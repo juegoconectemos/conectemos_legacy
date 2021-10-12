@@ -34,6 +34,8 @@ dependencies:
   firebase_core: "0.5.0"
   cloud_firestore: ^0.14.0+2
   firebase_database: ^4.0.0
+  circle_list: ^1.0.2
+  flutter_svg: ^0.19.3
 
 dev_dependencies:
   flutter_test:
@@ -66,10 +68,45 @@ flutter:
     - assets/icono_todos_opaco.png
     - assets/icono_respondo.png
     - assets/icono_respondo_opaco.png
+    - assets/icono_tus_cartas_opaco.png
+    - assets/icono_tus_cartas.png
     - assets/disco_central_para_texto2.png
+    - assets/disco_central_para_todos.png
+    - assets/disco_central_para_uno.png
     - assets/barra_nombre.png
     - assets/barra_jugador_verde.png
-    - assets/color_barra_verde.png
+    - assets/barra_jugador_morado.png
+    - assets/barra_con_color_todos_responden.png
+    - assets/color_barra_morado.png
+    - assets/jugador_amarillo.png
+    - assets/jugador_amarillo_con_circulo.png
+    - assets/jugador_azul.png
+    - assets/jugador_azul_con_circulo.png
+    - assets/jugador_calipso.png
+    - assets/jugador_calipso_con_circulo.png
+    - assets/jugador_naranjo.png
+    - assets/jugador_naranjo_con_circulo.png
+    - assets/jugador_negro.png
+    - assets/jugador_negro_con_circulo.png
+    - assets/jugador_pistacho.png
+    - assets/jugador_pistacho_con_circulo.png
+    - assets/jugador_rojo.png
+    - assets/jugador_rojo_con_circulo.png
+    - assets/jugador_rosado.png
+    - assets/jugador_rosado_con_circulo.png
+    - assets/jugador_verde_musgo.png
+    - assets/jugador_verde_musgo_con_circulo.png
+    - assets/jugador_verde.png
+    - assets/jugador_verde_con_circulo.png
+    - assets/jugador_violeta.png
+    - assets/jugador_violeta_con_circulo.png
+    - assets/jugador_morado.png
+    - assets/jugador_morado_con_circulo.png
+    - assets/protruding_squares.svg
+    - assets/fondo3.svg
+    - assets/fondo1.svg
+    - assets/circulo_preguntas.png
+    - assets/icono_ok.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

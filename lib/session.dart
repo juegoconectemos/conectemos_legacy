@@ -10,6 +10,7 @@ class Session {
   static set codigoPartida(String valor) => _codigoPartida = valor;
 
   static String get nombreJugador => _nombreJugador;
+
   static set nombreJugador(String valor) => _nombreJugador = valor;
 
   Session._internal();

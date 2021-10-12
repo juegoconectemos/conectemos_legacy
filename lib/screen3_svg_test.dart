@@ -3,9 +3,9 @@ import 'package:conectemos/session.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:circle_list/circle_list.dart';
-//import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-String nombreJugador = '';
+String nombreJugador = Session.nombreJugador;
 
 List<dynamic> jugadores;
 String responde = '';
@@ -59,7 +59,7 @@ List<Image> circulos = [
     width: 70,
   ),
   Image.asset(
-    'assets/jugador_morado_con_circulo.png',
+    'assets/color_barra_morado.png',
     width: 70,
   )
 ];
@@ -89,7 +89,6 @@ class _Screen3State extends State<Screen3> {
             jugadores.toString());
         int turno = doc.get('turno');
 
-        nombreJugador = Session.nombreJugador;
         nombreJugadorTurno = jugadores[turno];
 
         if (nombreJugador.isNotEmpty &&
@@ -99,10 +98,6 @@ class _Screen3State extends State<Screen3> {
         } else {
           iguales = false;
         }
-
-        print('Screen3 - nombreJugador: ' + nombreJugador.toString());
-        print('Screen3 - nombreJugadorTurno: ' + nombreJugadorTurno.toString());
-        print('Screen3 - iguales: ' + iguales.toString());
 
         responde = doc.get('responde');
         pregunta = doc.get('pregunta');
@@ -123,129 +118,107 @@ class _Screen3State extends State<Screen3> {
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar: AppBar(title: Text('Screen3 - $nombreJugador')),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.blue,
-              Colors.red,
-            ],
-          ),
+      body: Stack(children: <Widget>[
+        SvgPicture.asset(
+          'assets/fondo1.svg',
+          alignment: Alignment.topCenter,
+          //width: MediaQuery.of(context).size.width,
+          //height: MediaQuery.of(context).size.height,
+          fit: BoxFit.cover, // No se por qué sale una línea blanca al final
         ),
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              children: [
-                Text(
-                  'TURNO',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15),
-                ),
-                Stack(alignment: Alignment.center, children: <Widget>[
-                  Image.asset(
-                    'assets/barra_jugador_morado.png',
-                    width: 200,
-                  ),
+        Container(
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
                   Text(
-                    nombreJugadorTurno,
+                    'TURNO',
                     style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15),
                   ),
-                ]),
-              ],
-            ),
-            CircleList(
-              origin: Offset(0, 0),
-              innerRadius: 80,
-              outerRadius: 180,
-              rotateMode: RotateMode.stopRotate,
-              children: circulos,
-              centerWidget: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/disco_central_para_texto2.png',
-                    width: 200,
-                  ),
-                  Text(
-                    'ELIGE TU\nCOMODÍN',
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
+                  Stack(alignment: Alignment.center, children: <Widget>[
+                    Image.asset(
+                      'assets/barra_jugador_morado.png',
+                      width: 200,
+                    ),
+                    Text(
+                      nombreJugadorTurno,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                  ]),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    icon: false
+                        ? Image.asset('assets/icono_tus_cartas.png')
+                        : Image.asset('assets/icono_tus_cartas_opaco.png'),
+                    iconSize: 70,
+                    onPressed: null,
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: false
-                      ? Image.asset('assets/icono_tus_cartas.png')
-                      : Image.asset('assets/icono_tus_cartas_opaco.png'),
-                  iconSize: 70,
-                  onPressed: null,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: iguales
-                      ? Image.asset('assets/icono_respondo.png')
-                      : Image.asset('assets/icono_respondo_opaco.png'),
-                  iconSize: 70,
-                  onPressed: iguales
-                      ? () {
-                          _showMessageDialogRespondo(
-                              context, 'Elige quién pregunta');
-                        }
-                      : null,
-                ),
-                IconButton(
-                  icon: iguales
-                      ? Image.asset('assets/icono_todos.png')
-                      : Image.asset('assets/icono_todos_opaco.png'),
-                  iconSize: 70,
-                  onPressed: iguales
-                      ? () {
-                          FirebaseFirestore.instance
-                              .collection('partidas')
-                              //.doc('zwdlumIJuXKNVTXHiRYP')
-                              .doc(Session.codigoPartida)
-                              .update({
-                            'responde': 'TODOS',
-                            'pregunta': nombreJugadorTurno
-                          });
-                        }
-                      : null,
-                ),
-                IconButton(
-                  icon: iguales
-                      ? Image.asset('assets/icono_pregunto.png')
-                      : Image.asset('assets/icono_pregunto_opaco.png'),
-                  iconSize: 70,
-                  onPressed: iguales
-                      ? () {
-                          _showMessageDialogPregunto(
-                              context, 'Elige quién responde');
-                        }
-                      : null,
-                ),
-              ],
-            )
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    icon: iguales
+                        ? Image.asset('assets/icono_respondo.png')
+                        : Image.asset('assets/icono_respondo_opaco.png'),
+                    iconSize: 70,
+                    onPressed: iguales
+                        ? () {
+                            _showMessageDialogRespondo(
+                                context, 'Elige quién pregunta');
+                          }
+                        : null,
+                  ),
+                  IconButton(
+                    icon: iguales
+                        ? Image.asset('assets/icono_todos.png')
+                        : Image.asset('assets/icono_todos_opaco.png'),
+                    iconSize: 70,
+                    onPressed: iguales
+                        ? () {
+                            FirebaseFirestore.instance
+                                .collection('partidas')
+                                //.doc('zwdlumIJuXKNVTXHiRYP')
+                                .doc(Session.codigoPartida)
+                                .update({
+                              'responde': 'TODOS',
+                              'pregunta': nombreJugadorTurno
+                            });
+                          }
+                        : null,
+                  ),
+                  IconButton(
+                    icon: iguales
+                        ? Image.asset('assets/icono_pregunto.png')
+                        : Image.asset('assets/icono_pregunto_opaco.png'),
+                    iconSize: 70,
+                    onPressed: iguales
+                        ? () {
+                            _showMessageDialogPregunto(
+                                context, 'Elige quién responde');
+                          }
+                        : null,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
-      ),
+      ]),
     );
   }
 
