@@ -13,6 +13,9 @@ String responde = "";
 String textoPregunta = "";
 bool iguales = false;
 
+String imagenBarraJugador =
+    'assets/barra_jugador_amarillo.png'; // por defecto cargará la barra con la ficha amarilla pero luego cambiara a la seleccionada por el usuario
+
 class Screen5 extends StatefulWidget {
   @override
   _Screen5State createState() {
@@ -50,6 +53,57 @@ class _Screen5State extends State<Screen5> {
 
         print('Screen5 - iguales: ' + iguales.toString());
       });
+
+      switch (Session.colorSeleccionado) {
+        case 'amarillo':
+          imagenBarraJugador = 'assets/barra_jugador_amarillo.png';
+          break;
+
+        case 'azul':
+          imagenBarraJugador = 'assets/barra_jugador_azul.png';
+          break;
+
+        case 'calipso':
+          imagenBarraJugador = 'assets/barra_jugador_calipso.png';
+          break;
+
+        case 'naranjo':
+          imagenBarraJugador = 'assets/barra_jugador_naranjo.png';
+          break;
+
+        case 'negro':
+          imagenBarraJugador = 'assets/barra_jugador_negro.png';
+          break;
+
+        case 'pistacho':
+          imagenBarraJugador = 'assets/barra_jugador_pistacho.png';
+          break;
+
+        case 'rojo':
+          imagenBarraJugador = 'assets/barra_jugador_rojo.png';
+          break;
+
+        case 'rosado':
+          imagenBarraJugador = 'assets/barra_jugador_rosado.png';
+          break;
+
+        case 'verde_musgo':
+          imagenBarraJugador = 'assets/barra_jugador_verde_musgo.png';
+          break;
+
+        case 'verde':
+          imagenBarraJugador = 'assets/barra_jugador_verde.png';
+          break;
+
+        case 'violeta':
+          imagenBarraJugador = 'assets/barra_jugador_violeta.png';
+          break;
+
+        case 'morado':
+          imagenBarraJugador = 'assets/barra_jugador_morado.png';
+          break;
+      }
+
       setState(() {});
     });
   }
@@ -98,7 +152,7 @@ class _Screen5State extends State<Screen5> {
                           width: 200,
                         )
                       : Image.asset(
-                          'assets/barra_jugador_morado.png',
+                          imagenBarraJugador,
                           width: 200,
                         ),
                   Text(

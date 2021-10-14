@@ -74,10 +74,19 @@ flutter:
     - assets/disco_central_para_todos.png
     - assets/disco_central_para_uno.png
     - assets/barra_nombre.png
-    - assets/barra_jugador_verde.png
+    - assets/barra_jugador_amarillo.png
+    - assets/barra_jugador_azul.png
+    - assets/barra_jugador_calipso.png
     - assets/barra_jugador_morado.png
+    - assets/barra_jugador_naranjo.png
+    - assets/barra_jugador_negro.png
+    - assets/barra_jugador_pistacho.png
+    - assets/barra_jugador_rojo.png
+    - assets/barra_jugador_rosado.png
+    - assets/barra_jugador_verde_musgo.png
+    - assets/barra_jugador_verde.png
+    - assets/barra_jugador_violeta.png
     - assets/barra_con_color_todos_responden.png
-    - assets/color_barra_morado.png
     - assets/jugador_amarillo.png
     - assets/jugador_amarillo_con_circulo.png
     - assets/jugador_azul.png

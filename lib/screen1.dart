@@ -54,6 +54,7 @@ class _Screen1State extends State<Screen1> {
     //No aseguramos de resetear estas dos variables de sesión
     Session.codigoPartida = '';
     Session.nombreJugador = '';
+    Session.colorSeleccionado = '';
 
     Firebase.initializeApp().whenComplete(() {
       print("Screen1 - Firebase Iniciado");
@@ -96,6 +97,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = false;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = 'amarillo';
             },
           );
         },
@@ -122,6 +125,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = false;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = 'azul';
             },
           );
         },
@@ -148,6 +153,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = false;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = 'calipso';
             },
           );
         },
@@ -174,6 +181,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = false;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = 'naranjo';
             },
           );
         },
@@ -200,6 +209,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = false;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = 'negro';
             },
           );
         },
@@ -226,6 +237,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = false;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = 'pistacho';
             },
           );
         },
@@ -252,6 +265,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = false;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = 'rojo';
             },
           );
         },
@@ -304,6 +319,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = false;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = "verde_musgo";
             },
           );
         },
@@ -330,6 +347,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = true;
               violetaSeleccionado = false;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = "verde";
             },
           );
         },
@@ -356,6 +375,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = true;
               moradoSeleccionado = false;
+
+              Session.colorSeleccionado = "violeta";
             },
           );
         },
@@ -382,6 +403,8 @@ class _Screen1State extends State<Screen1> {
               verdeSeleccionado = false;
               violetaSeleccionado = false;
               moradoSeleccionado = true;
+
+              Session.colorSeleccionado = "morado";
             },
           );
         },
@@ -596,8 +619,11 @@ class _Screen1State extends State<Screen1> {
                       if (codigoPartidaController.text != null &&
                           nombreJugadorController.text != null &&
                           codigoPartidaController.text != '' &&
-                          nombreJugadorController.text != '') {
+                          nombreJugadorController.text != '' &&
+                          Session.colorSeleccionado != null &&
+                          Session.colorSeleccionado != '') {
                         // FALTA VALIDAR EL NOMBRE DEL JUGADOR Y QUE NO ESTE OCUPADO POR OTRO JUGADOR EN LA MISMA PARTIDA
+                        // FALTA VALIDAR QUE EL COLOR SELECCIONADO NO ESTE UTILIZADO POR OTRO JUGADOR
 
                         Session.nombreJugador = nombreJugadorController.text;
                         Session.codigoPartida = codigoPartidaController.text;
@@ -606,13 +632,21 @@ class _Screen1State extends State<Screen1> {
                             .collection('partidas')
                             .doc(codigoPartidaController.text)
                             .update({
-                          'jugadores': FieldValue.arrayUnion(
-                              [nombreJugadorController.text])
-                        }).then(
-                          (value) => {
-                            Navigator.pushReplacementNamed(context, '/screen3'),
-                          },
-                        );
+                              'jugadores': FieldValue.arrayUnion(
+                                [nombreJugadorController.text],
+                              ),
+                              'colores': FieldValue.arrayUnion(
+                                [Session.colorSeleccionado],
+                              ),
+                            })
+                            .then(
+                              (value) => {
+                                Navigator.pushReplacementNamed(
+                                    context, '/screen3'),
+                              },
+                            )
+                            .catchError((error) => print("$error"));
+
                         // ME ESTOY SALTANDO EL SCREEN2
                       }
                     },
