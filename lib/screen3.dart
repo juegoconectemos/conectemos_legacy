@@ -8,13 +8,15 @@ import 'package:circle_list/circle_list.dart';
 String nombreJugador = '';
 
 List<dynamic> jugadores;
+List<dynamic> colores;
 String responde = '';
 String pregunta = '';
 String nombreJugadorTurno = '';
+String colorTurno = '';
+
 bool iguales = false;
 
-String imagenBarraJugador =
-    'assets/barra_jugador_amarillo.png'; // por defecto cargará la barra con la ficha amarilla pero luego cambiara a la seleccionada por el usuario
+String imagenBarraJugador = 'assets/barra_nombre.png';
 
 class Screen3 extends StatefulWidget {
   @override
@@ -89,12 +91,15 @@ class _Screen3State extends State<Screen3> {
           .snapshots()
           .listen((doc) {
         jugadores = doc.get('jugadores');
+        colores = doc.get('colores');
+
         print('Screen3 - Listado de jugadores actualizado: ' +
             jugadores.toString());
         int turno = doc.get('turno');
 
         nombreJugador = Session.nombreJugador;
         nombreJugadorTurno = jugadores[turno];
+        colorTurno = colores[turno];
 
         if (nombreJugador.isNotEmpty &&
             nombreJugadorTurno.isNotEmpty &&
@@ -118,7 +123,7 @@ class _Screen3State extends State<Screen3> {
           print('Screen3 - pregunta no está definido aún');
         }
 
-        switch (Session.colorSeleccionado) {
+        switch (colorTurno) {
           case 'amarillo':
             circulos[0] = Image.asset(
               'assets/jugador_amarillo_con_circulo.png',
@@ -304,8 +309,13 @@ class _Screen3State extends State<Screen3> {
               children: [
                 IconButton(
                   icon: false
-                      ? Image.asset('assets/icono_tus_cartas.png')
-                      : Image.asset('assets/icono_tus_cartas_opaco.png'),
+                      ? Visibility(
+                          child: Image.asset('assets/icono_tus_cartas.png'),
+                          visible: false)
+                      : Visibility(
+                          child:
+                              Image.asset('assets/icono_tus_cartas_opaco.png'),
+                          visible: false),
                   iconSize: 70,
                   onPressed: null,
                 ),

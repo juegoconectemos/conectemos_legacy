@@ -116,6 +116,8 @@ flutter:
     - assets/fondo1.svg
     - assets/circulo_preguntas.png
     - assets/icono_ok.png
+    - assets/icono_corazon.png
+    - assets/icono_corazon_pintado.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -30,11 +30,14 @@ List<String> preguntas = [
   '¿Qué es imprescindible para ti?',
 ];
 
-String pregunta = "";
-String responde = "";
+List<dynamic> jugadores;
+List<dynamic> colores;
+String pregunta = '';
+String responde = '';
+String nombreJugadorTurno = '';
+String colorTurno = '';
 
-String imagenBarraJugador =
-    'assets/barra_jugador_amarillo.png'; // por defecto cargará la barra con la ficha amarilla pero luego cambiara a la seleccionada por el usuario
+String imagenBarraJugador = 'assets/barra_nombre.png';
 
 class Screen4 extends StatefulWidget {
   @override
@@ -104,12 +107,19 @@ class _Screen4State extends State<Screen4> {
           .doc(Session.codigoPartida)
           .snapshots()
           .listen((doc) {
+        jugadores = doc.get('jugadores');
+        colores = doc.get('colores');
+        int turno = doc.get('turno');
+
         responde = doc.get('responde');
         print('Screen4 - responde: ' + responde);
         pregunta = doc.get('pregunta');
         print('Screen4 - pregunta: ' + pregunta);
 
         nombreJugador = Session.nombreJugador;
+        nombreJugadorTurno = jugadores[turno];
+        colorTurno = colores[turno];
+
         if (nombreJugador == pregunta) {
           iguales = true;
         } else {
@@ -124,119 +134,118 @@ class _Screen4State extends State<Screen4> {
         } else {
           print('Screen4 - textoPregunta no está definido aún');
         }
+
+        switch (colorTurno) {
+          case 'amarillo':
+            circulos[0] = Image.asset(
+              'assets/jugador_amarillo_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_amarillo.png';
+            break;
+          case 'azul':
+            circulos[1] = Image.asset(
+              'assets/jugador_azul_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_azul.png';
+
+            break;
+          case 'calipso':
+            circulos[2] = Image.asset(
+              'assets/jugador_calipso_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_calipso.png';
+
+            break;
+          case 'naranjo':
+            circulos[3] = Image.asset(
+              'assets/jugador_naranjo_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_naranjo.png';
+
+            break;
+          case 'negro':
+            circulos[4] = Image.asset(
+              'assets/jugador_negro_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_negro.png';
+
+            break;
+          case 'pistacho':
+            circulos[5] = Image.asset(
+              'assets/jugador_pistacho_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_pistacho.png';
+
+            break;
+          case 'rojo':
+            circulos[6] = Image.asset(
+              'assets/jugador_rojo_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_rojo.png';
+
+            break;
+          case 'rosado':
+            circulos[7] = Image.asset(
+              'assets/jugador_rosado_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_rosado.png';
+
+            break;
+          case 'verde_musgo':
+            circulos[8] = Image.asset(
+              'assets/jugador_verde_musgo_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_verde_musgo.png';
+
+            break;
+          case 'verde':
+            circulos[9] = Image.asset(
+              'assets/jugador_verde_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_verde.png';
+
+            break;
+          case 'violeta':
+            circulos[10] = Image.asset(
+              'assets/jugador_violeta_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_violeta.png';
+
+            break;
+          case 'morado':
+            circulos[11] = Image.asset(
+              'assets/jugador_morado_con_circulo.png',
+              width: 70,
+            );
+
+            imagenBarraJugador = 'assets/barra_jugador_morado.png';
+
+            break;
+        }
+        setState(() {}); // NO SE SI VA DENTRO DEL {} anterior o no
       });
-
-      switch (Session.colorSeleccionado) {
-        case 'amarillo':
-          circulos[0] = Image.asset(
-            'assets/jugador_amarillo_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_amarillo.png';
-          break;
-        case 'azul':
-          circulos[1] = Image.asset(
-            'assets/jugador_azul_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_azul.png';
-
-          break;
-        case 'calipso':
-          circulos[2] = Image.asset(
-            'assets/jugador_calipso_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_calipso.png';
-
-          break;
-        case 'naranjo':
-          circulos[3] = Image.asset(
-            'assets/jugador_naranjo_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_naranjo.png';
-
-          break;
-        case 'negro':
-          circulos[4] = Image.asset(
-            'assets/jugador_negro_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_negro.png';
-
-          break;
-        case 'pistacho':
-          circulos[5] = Image.asset(
-            'assets/jugador_pistacho_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_pistacho.png';
-
-          break;
-        case 'rojo':
-          circulos[6] = Image.asset(
-            'assets/jugador_rojo_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_rojo.png';
-
-          break;
-        case 'rosado':
-          circulos[7] = Image.asset(
-            'assets/jugador_rosado_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_rosado.png';
-
-          break;
-        case 'verde_musgo':
-          circulos[8] = Image.asset(
-            'assets/jugador_verde_musgo_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_verde_musgo.png';
-
-          break;
-        case 'verde':
-          circulos[9] = Image.asset(
-            'assets/jugador_verde_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_verde.png';
-
-          break;
-        case 'violeta':
-          circulos[10] = Image.asset(
-            'assets/jugador_violeta_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_violeta.png';
-
-          break;
-        case 'morado':
-          circulos[11] = Image.asset(
-            'assets/jugador_morado_con_circulo.png',
-            width: 70,
-          );
-
-          imagenBarraJugador = 'assets/barra_jugador_morado.png';
-
-          break;
-      }
-
-      setState(() {}); // NO SE SI VA DENTRO DEL {} anterior o no
     });
   }
 
@@ -284,10 +293,15 @@ class _Screen4State extends State<Screen4> {
                           'assets/barra_con_color_todos_responden.png',
                           width: 200,
                         )
-                      : Image.asset(
-                          imagenBarraJugador,
-                          width: 200,
-                        ),
+                      : (responde == nombreJugadorTurno)
+                          ? Image.asset(
+                              imagenBarraJugador,
+                              width: 200,
+                            )
+                          : Image.asset(
+                              'assets/barra_nombre.png',
+                              width: 200,
+                            ),
                   Text(
                     responde,
                     style: TextStyle(
@@ -330,11 +344,15 @@ class _Screen4State extends State<Screen4> {
                       fontSize: 15),
                 ),
                 Stack(alignment: Alignment.center, children: <Widget>[
-                  Image.asset(
-                    'assets/barra_nombre.png',
-                    //'assets/barra_nombre.png',
-                    width: 200,
-                  ),
+                  (pregunta == nombreJugadorTurno)
+                      ? Image.asset(
+                          imagenBarraJugador,
+                          width: 200,
+                        )
+                      : Image.asset(
+                          'assets/barra_nombre.png',
+                          width: 200,
+                        ),
                   Text(
                     pregunta,
                     style: TextStyle(
