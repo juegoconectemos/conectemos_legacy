@@ -51,10 +51,14 @@ class _Screen1State extends State<Screen1> {
   @override
   void initState() {
     super.initState();
-    //No aseguramos de resetear estas dos variables de sesión
+    //No aseguramos de resetear estas variables de sesión
     Session.codigoPartida = '';
     Session.nombreJugador = '';
     Session.colorSeleccionado = '';
+
+    Session.carta1 = null;
+    Session.carta2 = null;
+    Session.carta3 = null;
 
     Firebase.initializeApp().whenComplete(() {
       print("Screen1 - Firebase Iniciado");

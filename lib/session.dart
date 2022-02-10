@@ -5,6 +5,10 @@ class Session {
   static String _nombreJugador;
   static String _colorSeleccionado;
 
+  static int _carta1;
+  static int _carta2;
+  static int _carta3;
+
   factory Session() => _singleton;
 
   static String get codigoPartida => _codigoPartida;
@@ -15,6 +19,15 @@ class Session {
 
   static String get colorSeleccionado => _colorSeleccionado;
   static set colorSeleccionado(String valor) => _colorSeleccionado = valor;
+
+  static int get carta1 => _carta1;
+  static set carta1(int valor) => _carta1 = valor;
+
+  static int get carta2 => _carta2;
+  static set carta2(int valor) => _carta2 = valor;
+
+  static int get carta3 => _carta3;
+  static set carta3(int valor) => _carta3 = valor;
 
   Session._internal();
 }

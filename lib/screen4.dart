@@ -6,7 +6,6 @@ import 'package:conectemos/screen5.dart';
 import 'package:conectemos/session.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 String nombreJugador = '';
 
@@ -252,56 +251,55 @@ class _Screen4State extends State<Screen4> {
       });
     });
 
-    SharedPreferences.getInstance().then((prefs) {
-      int carta1 = prefs.getInt('carta1');
-      int carta2 = prefs.getInt('carta2');
-      int carta3 = prefs.getInt('carta3');
+    // El siguiente código realiza lo que sería el proceso de sacar cartas del mazo a la mano
+    int carta1 = Session.carta1;
+    int carta2 = Session.carta2;
+    int carta3 = Session.carta3;
 
-      List<int> cartas = [];
+    List<int> cartas = [];
 
-      print("Cartas: $carta1 $carta2 $carta3");
+    print("Cartas: $carta1 $carta2 $carta3");
 
-      if (carta1 == null) {
-        int randomInt;
-        do {
-          randomInt = Random().nextInt(preguntas.length);
-        } while (cartas.contains(randomInt));
-        carta1 = randomInt;
-        print("carta1 $carta1");
-        prefs.setInt("carta1", carta1);
-      }
+    if (carta1 == null) {
+      int randomInt;
+      do {
+        randomInt = Random().nextInt(preguntas.length);
+      } while (cartas.contains(randomInt));
+      carta1 = randomInt;
+      print("carta1 $carta1");
+      Session.carta1 = carta1;
+    }
 
-      cartas.add(carta1);
+    cartas.add(carta1);
 
-      if (carta2 == null) {
-        int randomInt;
-        do {
-          randomInt = Random().nextInt(preguntas.length);
-        } while (cartas.contains(randomInt));
-        carta2 = randomInt;
-        print("carta2 $carta2");
-        prefs.setInt("carta2", carta2);
-      }
+    if (carta2 == null) {
+      int randomInt;
+      do {
+        randomInt = Random().nextInt(preguntas.length);
+      } while (cartas.contains(randomInt));
+      carta2 = randomInt;
+      print("carta2 $carta2");
+      Session.carta2 = carta2;
+    }
 
-      cartas.add(carta2);
+    cartas.add(carta2);
 
-      if (carta3 == null) {
-        int randomInt;
-        do {
-          randomInt = Random().nextInt(preguntas.length);
-        } while (cartas.contains(randomInt));
-        carta3 = randomInt;
-        print("carta3 $carta3");
-        prefs.setInt("carta3", carta3);
-      }
+    if (carta3 == null) {
+      int randomInt;
+      do {
+        randomInt = Random().nextInt(preguntas.length);
+      } while (cartas.contains(randomInt));
+      carta3 = randomInt;
+      print("carta3 $carta3");
+      Session.carta3 = carta3;
+    }
 
-      cartas.add(carta3);
+    cartas.add(carta3);
 
-      mano = [preguntas[carta1], preguntas[carta2], preguntas[carta3]];
+    mano = [preguntas[carta1], preguntas[carta2], preguntas[carta3]];
 
-      print("cartas: $cartas");
-      print("mano: $mano");
-    });
+    print("cartas: $cartas");
+    print("mano: $mano");
   }
 
   @override
@@ -465,19 +463,16 @@ class _Screen4State extends State<Screen4> {
               Navigator.pop(context); // quita el alertdialog antes de pasar a
               //la siguiente ventana
 
-              SharedPreferences.getInstance().then((prefs) async {
-                if (index == 0) {
-                  await prefs.remove("carta1");
-                  print("carta1 removed");
-                } else if (index == 1) {
-                  await prefs.remove("carta2");
-                  print("carta2 remove");
-                } else if (index == 2) {
-                  await prefs.remove("carta3");
-                  print("carta3 removed");
-                }
-                mano.clear();
-              });
+              if (index == 0) {
+                Session.carta1 = null;
+                print("carta1 removed");
+              } else if (index == 1) {
+                Session.carta2 = null;
+                print("carta2 removed");
+              } else if (index == 2) {
+                Session.carta3 = null;
+                print("carta3 removed");
+              }
 
               FirebaseFirestore.instance
                   .collection('partidas')
