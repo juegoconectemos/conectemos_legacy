@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:circle_list/circle_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conectemos/screen5.dart';
 import 'package:conectemos/session.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String nombreJugador = '';
 
@@ -36,6 +39,7 @@ String pregunta = '';
 String responde = '';
 String nombreJugadorTurno = '';
 String colorTurno = '';
+List<String> mano;
 
 String imagenBarraJugador = 'assets/barra_nombre.png';
 
@@ -247,6 +251,57 @@ class _Screen4State extends State<Screen4> {
         setState(() {}); // NO SE SI VA DENTRO DEL {} anterior o no
       });
     });
+
+    SharedPreferences.getInstance().then((prefs) {
+      int carta1 = prefs.getInt('carta1');
+      int carta2 = prefs.getInt('carta2');
+      int carta3 = prefs.getInt('carta3');
+
+      List<int> cartas = [];
+
+      print("Cartas: $carta1 $carta2 $carta3");
+
+      if (carta1 == null) {
+        int randomInt;
+        do {
+          randomInt = Random().nextInt(preguntas.length);
+        } while (cartas.contains(randomInt));
+        carta1 = randomInt;
+        print("carta1 $carta1");
+        prefs.setInt("carta1", carta1);
+      }
+
+      cartas.add(carta1);
+
+      if (carta2 == null) {
+        int randomInt;
+        do {
+          randomInt = Random().nextInt(preguntas.length);
+        } while (cartas.contains(randomInt));
+        carta2 = randomInt;
+        print("carta2 $carta2");
+        prefs.setInt("carta2", carta2);
+      }
+
+      cartas.add(carta2);
+
+      if (carta3 == null) {
+        int randomInt;
+        do {
+          randomInt = Random().nextInt(preguntas.length);
+        } while (cartas.contains(randomInt));
+        carta3 = randomInt;
+        print("carta3 $carta3");
+        prefs.setInt("carta3", carta3);
+      }
+
+      cartas.add(carta3);
+
+      mano = [preguntas[carta1], preguntas[carta2], preguntas[carta3]];
+
+      print("cartas: $cartas");
+      print("mano: $mano");
+    });
   }
 
   @override
@@ -398,21 +453,36 @@ class _Screen4State extends State<Screen4> {
 
   Widget setupAlertDialoadContainer() {
     return Container(
-      height: 300.0, // Change as per your requirement
+      height: 200.0, // Change as per your requirement
       width: 300.0, // Change as per your requirement
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: preguntas.length,
+        itemCount: mano.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            title: Text(preguntas[index]),
+            title: Text(mano[index]),
             onTap: () {
               Navigator.pop(context); // quita el alertdialog antes de pasar a
               //la siguiente ventana
+
+              SharedPreferences.getInstance().then((prefs) async {
+                if (index == 0) {
+                  await prefs.remove("carta1");
+                  print("carta1 removed");
+                } else if (index == 1) {
+                  await prefs.remove("carta2");
+                  print("carta2 remove");
+                } else if (index == 2) {
+                  await prefs.remove("carta3");
+                  print("carta3 removed");
+                }
+                mano.clear();
+              });
+
               FirebaseFirestore.instance
                   .collection('partidas')
                   .doc(Session.codigoPartida)
-                  .update({'textoPregunta': preguntas[index]});
+                  .update({'textoPregunta': mano[index]});
             },
           );
         },
@@ -425,6 +495,50 @@ class _Screen4State extends State<Screen4> {
         builder: (context) => AlertDialog(
           title: Text(titulo),
           content: setupAlertDialoadContainer(),
+          actions: [
+            FlatButton(
+              child: Text("Reemplazar pregunta por una propia"),
+              onPressed: () {
+                Navigator.pop(context);
+                _showTextoPreguntaReemplazarDialog(
+                    context, "Ingresa tu propia pregunta");
+              },
+            ),
+          ],
         ),
       );
+
+  _showTextoPreguntaReemplazarDialog(BuildContext context, String titulo) {
+    String pregunta = "";
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(titulo),
+        content: TextField(
+          onChanged: (value) {
+            pregunta = value;
+          },
+          //controller: _textFieldController,
+          //decoration: InputDecoration(hintText: "Text Field in Dialog"),
+        ),
+        actions: [
+          FlatButton(
+            child: Text("Reemplazar"),
+            onPressed: () {
+              Navigator.pop(context);
+
+              FirebaseFirestore.instance
+                  .collection('partidas')
+                  .doc(Session.codigoPartida)
+                  .update({'textoPregunta': pregunta});
+
+              FirebaseFirestore.instance.collection('reemplazar_pregunta').add({
+                'pregunta': pregunta,
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -13,10 +13,11 @@ String responde = '';
 String pregunta = '';
 String nombreJugadorTurno = '';
 String colorTurno = '';
-
 bool iguales = false;
 
 String imagenBarraJugador = 'assets/barra_nombre.png';
+
+List<Image> circulos;
 
 class Screen3 extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class Screen3 extends StatefulWidget {
 }
 
 class _Screen3State extends State<Screen3> {
-  List<Image> circulos = [
+  /*List<Image> circulos = [
     Image.asset(
       'assets/jugador_amarillo.png',
       width: 70,
@@ -75,7 +76,7 @@ class _Screen3State extends State<Screen3> {
       'assets/jugador_morado.png',
       width: 70,
     )
-  ];
+  ];*/
 
   CollectionReference users;
 
@@ -122,6 +123,11 @@ class _Screen3State extends State<Screen3> {
           print('Screen3 - responde no está definido aún');
           print('Screen3 - pregunta no está definido aún');
         }
+
+        circulos = List<Image>.generate(
+            colores.length,
+            (index) => Image.asset('assets/jugador_' + colores[index] + '.png',
+                width: 70));
 
         switch (colorTurno) {
           case 'amarillo':
