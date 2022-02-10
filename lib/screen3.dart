@@ -248,8 +248,14 @@ class _Screen3State extends State<Screen3> {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Colors.blue,
-              Colors.red,
+              //Colors.blue,
+              //Colors.red,
+              Color(0xFF00003C),
+              Color(0xFF091855),
+              Color(0xFF1D5E7F),
+              Color(0xFF635783),
+              Color(0xFFB2656C),
+              Color(0xFFFDD793),
             ],
           ),
         ),
@@ -263,29 +269,33 @@ class _Screen3State extends State<Screen3> {
                 Text(
                   'TURNO',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15),
+                    fontFamily: "GillSans",
+                    fontSize: 21,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
                 Stack(alignment: Alignment.center, children: <Widget>[
                   Image.asset(
                     //'assets/barra_jugador_amarillo.png',
                     imagenBarraJugador,
-                    width: 200,
+                    width: 300,
                   ),
                   Text(
                     nombreJugadorTurno,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                      fontFamily: "GillSans",
+                      fontSize: 22,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ]),
               ],
             ),
             CircleList(
               origin: Offset(0, 0),
-              innerRadius: 80,
+              innerRadius: 100,
               outerRadius: 180,
               rotateMode: RotateMode.stopRotate,
               children: circulos,
@@ -293,13 +303,8 @@ class _Screen3State extends State<Screen3> {
                 alignment: Alignment.center,
                 children: <Widget>[
                   Image.asset(
-                    'assets/disco_central_para_texto2.png',
+                    'assets/disco_elige_tu_comodin.png',
                     width: 200,
-                  ),
-                  Text(
-                    'ELIGE TU\nCOMODÍN',
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
                   ),
                 ],
               ),
@@ -322,7 +327,7 @@ class _Screen3State extends State<Screen3> {
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
                   icon: iguales

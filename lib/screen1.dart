@@ -423,8 +423,14 @@ class _Screen1State extends State<Screen1> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Colors.blue.shade900,
-                Colors.red,
+                //Colors.blue.shade900,
+                //Colors.red,
+                Color(0xFF00003C),
+                Color(0xFF091855),
+                Color(0xFF1D5E7F),
+                Color(0xFF635783),
+                Color(0xFFB2656C),
+                Color(0xFFFDD793),
               ],
             ),
           ),
@@ -442,7 +448,8 @@ class _Screen1State extends State<Screen1> {
               Text(
                 "CÓDIGO DE LA PARTIDA",
                 style: TextStyle(
-                  fontSize: 15,
+                  fontFamily: "GillSans",
+                  fontSize: 21,
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
                 ),
@@ -457,6 +464,7 @@ class _Screen1State extends State<Screen1> {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.text,
                     style: TextStyle(
+                      fontFamily: "GillSans",
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -491,7 +499,8 @@ class _Screen1State extends State<Screen1> {
               Text(
                 "NOMBRE",
                 style: TextStyle(
-                  fontSize: 15,
+                  fontFamily: "GillSans",
+                  fontSize: 21,
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
                 ),
@@ -506,7 +515,8 @@ class _Screen1State extends State<Screen1> {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.text,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontFamily: "GillSans",
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -534,7 +544,8 @@ class _Screen1State extends State<Screen1> {
               Text(
                 "ELIGE TU COLOR",
                 style: TextStyle(
-                  fontSize: 15,
+                  fontFamily: "GillSans",
+                  fontSize: 21,
                   fontWeight: FontWeight.normal,
                   color: Colors.white,
                 ),
@@ -543,15 +554,15 @@ class _Screen1State extends State<Screen1> {
               Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: circulos.sublist(0, 4),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: circulos.sublist(4, 8),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: circulos.sublist(8, 12),
                   ),
                 ],

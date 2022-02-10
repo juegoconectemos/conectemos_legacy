@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conectemos/session.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 String nombreJugador = '';
 
@@ -13,7 +14,9 @@ String pregunta = "";
 String responde = "";
 String nombreJugadorTurno = '';
 
-String textoPregunta = "";
+String textoPregunta = '';
+// Guarda el texto de la pregunta de forma temporal para ser enviada a me_gustas
+String textoPreguntaTmp = '';
 String colorTurno = '';
 
 bool iguales = false;
@@ -51,11 +54,21 @@ class _Screen5State extends State<Screen5> {
         nombreJugadorTurno = jugadores[turno];
         colorTurno = colores[turno];
 
-        if (responde.isEmpty && pregunta.isEmpty && textoPregunta.isEmpty) {
+        if (responde.isEmpty &&
+            pregunta.isEmpty &&
+            textoPregunta.isEmpty &&
+            textoPreguntaTmp.isNotEmpty) {
+          if (iconoCorazonSelected == true) {
+            FirebaseFirestore.instance.collection('me_gustas').add({
+              'pregunta': textoPreguntaTmp,
+            });
+          }
           // Ocurre cuando el usuario que pregunta está conforme con la respuesta y presionado OK
           Navigator.pushReplacementNamed(context, '/screen3');
           // Hace que se cierre el screen5 a todos los jugadores
         } else {
+          textoPreguntaTmp = textoPregunta;
+
           if (nombreJugador == pregunta) {
             iguales = true;
           } else {
@@ -130,8 +143,14 @@ class _Screen5State extends State<Screen5> {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Colors.blue,
-              Colors.red,
+              //Colors.blue,
+              //Colors.red,
+              Color(0xFF00003C),
+              Color(0xFF091855),
+              Color(0xFF1D5E7F),
+              Color(0xFF635783),
+              Color(0xFFB2656C),
+              Color(0xFFFDD793),
             ],
           ),
         ),
@@ -214,8 +233,9 @@ class _Screen5State extends State<Screen5> {
                     textoPregunta,
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: "GillSans",
                       fontWeight: FontWeight.normal,
-                      fontSize: 25,
+                      fontSize: 33,
                       color: Colors.white,
                     ),
                   ),
@@ -224,10 +244,20 @@ class _Screen5State extends State<Screen5> {
             ),
             //Text(textoPregunta),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon: Image.asset('assets/icono_ok.png'),
+                  icon: Image.asset('assets/icono_compartir.png'),
+                  iconSize: 70,
+                  onPressed: () {
+                    Share.share(
+                        '¡Hola, te invito a jugar Conectemos! Te comparto la siguiente pregunta: \"$textoPregunta\"');
+                  },
+                ),
+                IconButton(
+                  icon: iguales
+                      ? Image.asset('assets/icono_ok.png')
+                      : Image.asset('assets/icono_ok_opaco.png'),
                   iconSize: 70,
                   onPressed: iguales
                       ? () {

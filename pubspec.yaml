@@ -70,7 +70,8 @@ flutter:
     - assets/icono_respondo_opaco.png
     - assets/icono_tus_cartas_opaco.png
     - assets/icono_tus_cartas.png
-    - assets/disco_central_para_texto2.png
+    #- assets/disco_central_para_texto2.png
+    - assets/disco_elige_tu_comodin.png
     - assets/disco_central_para_todos.png
     - assets/disco_central_para_uno.png
     - assets/barra_nombre.png
@@ -116,8 +117,10 @@ flutter:
     - assets/fondo1.svg
     - assets/circulo_preguntas.png
     - assets/icono_ok.png
+    - assets/icono_ok_opaco.png
     - assets/icono_corazon.png
     - assets/icono_corazon_pintado.png
+    - assets/icono_compartir.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -130,10 +133,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: GillSans
+      fonts:
+        - asset: fonts/GillSans.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

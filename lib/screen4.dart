@@ -259,8 +259,14 @@ class _Screen4State extends State<Screen4> {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Colors.blue,
-              Colors.red,
+              //Colors.blue,
+              //Colors.red,
+              Color(0xFF00003C),
+              Color(0xFF091855),
+              Color(0xFF1D5E7F),
+              Color(0xFF635783),
+              Color(0xFFB2656C),
+              Color(0xFFFDD793),
             ],
           ),
         ),
@@ -283,9 +289,10 @@ class _Screen4State extends State<Screen4> {
                     : Text(
                         'RESPONDE',
                         style: TextStyle(
+                            fontFamily: 'GillSans',
                             color: Colors.white,
                             fontWeight: FontWeight.normal,
-                            fontSize: 15),
+                            fontSize: 21),
                       ),
                 Stack(alignment: Alignment.center, children: <Widget>[
                   (responde == 'TODOS')
@@ -314,7 +321,7 @@ class _Screen4State extends State<Screen4> {
             ),
             CircleList(
               origin: Offset(0, 0),
-              innerRadius: 80,
+              innerRadius: 100,
               outerRadius: 180,
               rotateMode: RotateMode.stopRotate,
               children: circulos,
@@ -339,9 +346,10 @@ class _Screen4State extends State<Screen4> {
                 Text(
                   'PREGUNTA',
                   style: TextStyle(
+                      fontFamily: "GillSans",
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
-                      fontSize: 15),
+                      fontSize: 21),
                 ),
                 Stack(alignment: Alignment.center, children: <Widget>[
                   (pregunta == nombreJugadorTurno)
@@ -370,7 +378,9 @@ class _Screen4State extends State<Screen4> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                  icon: Image.asset('assets/icono_tus_cartas.png'),
+                  icon: iguales
+                      ? Image.asset('assets/icono_tus_cartas.png')
+                      : Image.asset('assets/icono_tus_cartas_opaco.png'),
                   iconSize: 70,
                   onPressed: iguales
                       ? () {
