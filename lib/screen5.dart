@@ -267,7 +267,13 @@ class _Screen5State extends State<Screen5> {
                               .get()
                               .then((doc) {
                             jugadores = doc.get('jugadores');
-                            int turno = Random().nextInt(jugadores.length);
+                            int turnoActual = doc.get('turno');
+
+                            int turnoSiguiente = turnoActual + 1;
+
+                            if (turnoSiguiente > jugadores.length - 1) {
+                              turnoSiguiente = 0;
+                            }
 
                             DocumentReference partidaRef = FirebaseFirestore
                                 .instance
@@ -278,7 +284,7 @@ class _Screen5State extends State<Screen5> {
                               'pregunta': '',
                               'responde': '',
                               'textoPregunta': '',
-                              'turno': turno
+                              'turno': turnoSiguiente
                             })
                                 //.then((value) => Navigator.pushReplacementNamed(
                                 //    context, '/screen3'))
