@@ -225,7 +225,7 @@ class _Screen5State extends State<Screen5> {
               children: <Widget>[
                 Image.asset(
                   'assets/circulo_preguntas.png',
-                  width: 300,
+                  width: 370,
                 ),
                 Container(
                   width: 200,
