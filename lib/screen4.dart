@@ -42,6 +42,8 @@ List<String> mano;
 
 String imagenBarraJugador = 'assets/barra_nombre.png';
 
+List<Image> circulos;
+
 class Screen4 extends StatefulWidget {
   @override
   _Screen4State createState() {
@@ -50,6 +52,7 @@ class Screen4 extends StatefulWidget {
 }
 
 class _Screen4State extends State<Screen4> {
+  /*
   List<Image> circulos = [
     Image.asset(
       'assets/jugador_amarillo.png',
@@ -99,7 +102,7 @@ class _Screen4State extends State<Screen4> {
       'assets/jugador_morado.png',
       width: 70,
     )
-  ];
+  ];*/
 
   @override
   void initState() {
@@ -138,9 +141,14 @@ class _Screen4State extends State<Screen4> {
           print('Screen4 - textoPregunta no está definido aún');
         }
 
+        circulos = List<Image>.generate(
+            colores.length,
+            (index) => Image.asset('assets/jugador_' + colores[index] + '.png',
+                width: 70));
+
         switch (colorTurno) {
           case 'amarillo':
-            circulos[0] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_amarillo_con_circulo.png',
               width: 70,
             );
@@ -148,7 +156,7 @@ class _Screen4State extends State<Screen4> {
             imagenBarraJugador = 'assets/barra_jugador_amarillo.png';
             break;
           case 'azul':
-            circulos[1] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_azul_con_circulo.png',
               width: 70,
             );
@@ -157,7 +165,7 @@ class _Screen4State extends State<Screen4> {
 
             break;
           case 'calipso':
-            circulos[2] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_calipso_con_circulo.png',
               width: 70,
             );
@@ -166,7 +174,7 @@ class _Screen4State extends State<Screen4> {
 
             break;
           case 'naranjo':
-            circulos[3] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_naranjo_con_circulo.png',
               width: 70,
             );
@@ -175,7 +183,7 @@ class _Screen4State extends State<Screen4> {
 
             break;
           case 'negro':
-            circulos[4] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_negro_con_circulo.png',
               width: 70,
             );
@@ -184,7 +192,7 @@ class _Screen4State extends State<Screen4> {
 
             break;
           case 'pistacho':
-            circulos[5] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_pistacho_con_circulo.png',
               width: 70,
             );
@@ -193,7 +201,7 @@ class _Screen4State extends State<Screen4> {
 
             break;
           case 'rojo':
-            circulos[6] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_rojo_con_circulo.png',
               width: 70,
             );
@@ -202,7 +210,7 @@ class _Screen4State extends State<Screen4> {
 
             break;
           case 'rosado':
-            circulos[7] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_rosado_con_circulo.png',
               width: 70,
             );
@@ -211,7 +219,7 @@ class _Screen4State extends State<Screen4> {
 
             break;
           case 'verde_musgo':
-            circulos[8] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_verde_musgo_con_circulo.png',
               width: 70,
             );
@@ -220,7 +228,7 @@ class _Screen4State extends State<Screen4> {
 
             break;
           case 'verde':
-            circulos[9] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_verde_con_circulo.png',
               width: 70,
             );
@@ -238,7 +246,7 @@ class _Screen4State extends State<Screen4> {
 
             break;
           case 'morado':
-            circulos[11] = Image.asset(
+            circulos[turno] = Image.asset(
               'assets/jugador_morado_con_circulo.png',
               width: 70,
             );
