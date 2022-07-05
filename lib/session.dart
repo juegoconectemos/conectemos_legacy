@@ -9,6 +9,10 @@ class Session {
   static int _carta2;
   static int _carta3;
 
+  static bool _comodin1ocupado;
+  static bool _comodin2ocupado;
+  static bool _comodin3ocupado;
+
   factory Session() => _singleton;
 
   static String get codigoPartida => _codigoPartida;
@@ -28,6 +32,15 @@ class Session {
 
   static int get carta3 => _carta3;
   static set carta3(int valor) => _carta3 = valor;
+
+  static bool get comodin1ocupado => _comodin1ocupado;
+  static set comodin1ocupado(bool valor) => _comodin1ocupado = valor;
+
+  static bool get comodin2ocupado => _comodin2ocupado;
+  static set comodin2ocupado(bool valor) => _comodin2ocupado = valor;
+
+  static bool get comodin3ocupado => _comodin3ocupado;
+  static set comodin3ocupado(bool valor) => _comodin3ocupado = valor;
 
   Session._internal();
 }

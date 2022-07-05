@@ -60,6 +60,10 @@ class _Screen1State extends State<Screen1> {
     Session.carta2 = null;
     Session.carta3 = null;
 
+    Session.comodin1ocupado = false;
+    Session.comodin2ocupado = false;
+    Session.comodin3ocupado = false;
+
     Firebase.initializeApp().whenComplete(() {
       print("Screen1 - Firebase Iniciado");
       Map args = ModalRoute.of(context).settings.arguments;

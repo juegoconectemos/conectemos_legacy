@@ -244,6 +244,14 @@ class _Screen3State extends State<Screen3> {
             break;
         }
 
+        if (Session.comodin1ocupado == true &&
+            Session.comodin2ocupado == true &&
+            Session.comodin3ocupado == true) {
+          Session.comodin1ocupado = false;
+          Session.comodin2ocupado = false;
+          Session.comodin3ocupado = false;
+        }
+
         setState(() {});
       });
     });
@@ -330,8 +338,10 @@ class _Screen3State extends State<Screen3> {
 
                           partidaRef
                               .update({
-                                'colores': FieldValue.arrayRemove([Session.colorSeleccionado]),
-                                'jugadores': FieldValue.arrayRemove([Session.nombreJugador]),
+                                'colores': FieldValue.arrayRemove(
+                                    [Session.colorSeleccionado]),
+                                'jugadores': FieldValue.arrayRemove(
+                                    [Session.nombreJugador]),
                                 'turno': turnoSiguiente
                               })
                               .then((value) => Navigator.pushReplacementNamed(
@@ -385,11 +395,11 @@ class _Screen3State extends State<Screen3> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon: iguales
+                  icon: (iguales && Session.comodin1ocupado == false)
                       ? Image.asset('assets/icono_respondo.png')
                       : Image.asset('assets/icono_respondo_opaco.png'),
                   iconSize: 70,
-                  onPressed: iguales
+                  onPressed: (iguales && Session.comodin1ocupado == false)
                       ? () {
                           _showMessageDialogRespondo(
                               context, 'Elige quién pregunta');
@@ -397,11 +407,11 @@ class _Screen3State extends State<Screen3> {
                       : null,
                 ),
                 IconButton(
-                  icon: iguales
+                  icon: (iguales && Session.comodin2ocupado == false)
                       ? Image.asset('assets/icono_todos.png')
                       : Image.asset('assets/icono_todos_opaco.png'),
                   iconSize: 70,
-                  onPressed: iguales
+                  onPressed: (iguales && Session.comodin2ocupado == false)
                       ? () {
                           FirebaseFirestore.instance
                               .collection('partidas')
@@ -410,16 +420,16 @@ class _Screen3State extends State<Screen3> {
                               .update({
                             'responde': 'TODOS',
                             'pregunta': nombreJugadorTurno
-                          });
+                          }).then((value) => Session.comodin2ocupado = true);
                         }
                       : null,
                 ),
                 IconButton(
-                  icon: iguales
+                  icon: (iguales && Session.comodin3ocupado == false)
                       ? Image.asset('assets/icono_pregunto.png')
                       : Image.asset('assets/icono_pregunto_opaco.png'),
                   iconSize: 70,
-                  onPressed: iguales
+                  onPressed: (iguales && Session.comodin3ocupado == false)
                       ? () {
                           _showMessageDialogPregunto(
                               context, 'Elige quién responde');
@@ -454,7 +464,7 @@ class _Screen3State extends State<Screen3> {
                   .update({
                 'responde': nombreJugadorTurno,
                 'pregunta': jugadores[index]
-              });
+              }).then((value) => Session.comodin1ocupado = true);
             },
           );
         },
@@ -491,7 +501,7 @@ class _Screen3State extends State<Screen3> {
                   .update({
                 'responde': jugadores[index],
                 'pregunta': nombreJugadorTurno
-              });
+              }).then((value) => Session.comodin3ocupado = true);
             },
           );
         },
