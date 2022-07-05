@@ -121,6 +121,7 @@ flutter:
     - assets/icono_corazon.png
     - assets/icono_corazon_pintado.png
     - assets/icono_compartir.png
+    - assets/icono_boton_off_salir.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

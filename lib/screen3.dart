@@ -302,6 +302,50 @@ class _Screen3State extends State<Screen3> {
                     ),
                   ),
                 ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: Image.asset('assets/icono_boton_off_salir.png'),
+                      onPressed: () {
+                        FirebaseFirestore.instance
+                            .collection('partidas')
+                            .doc(Session.codigoPartida)
+                            .get()
+                            .then((doc) {
+                          jugadores = doc.get('jugadores');
+
+                          int turnoActual = doc.get('turno');
+
+                          int turnoSiguiente = turnoActual + 1;
+
+                          if (turnoSiguiente > jugadores.length - 1) {
+                            turnoSiguiente = 0;
+                          }
+
+                          DocumentReference partidaRef = FirebaseFirestore
+                              .instance
+                              .collection('partidas')
+                              .doc(Session.codigoPartida);
+
+                          partidaRef
+                              .update({
+                                'colores': FieldValue.arrayRemove([Session.colorSeleccionado]),
+                                'jugadores': FieldValue.arrayRemove([Session.nombreJugador]),
+                                'turno': turnoSiguiente
+                              })
+                              .then((value) => Navigator.pushReplacementNamed(
+                                  context, '/screen0'))
+                              .catchError(
+                                  (error) => print("Screen3 - Error: $error"));
+                        });
+                      },
+                    ),
+                    SizedBox(
+                      width: 90,
+                    ),
+                  ],
+                ),
               ],
             ),
             CircleList(
