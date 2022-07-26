@@ -1028,6 +1028,47 @@ class _Screen4State extends State<Screen4> {
     );
   }
 
+
+  Widget eligePreguntaReemplazarContainer(String pregunta) {
+    return Container(
+      height: 200.0, // Change as per your requirement
+      width: 300.0, // Change as per your requirement
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: mano.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(mano[index]),
+            onTap: () {
+              Navigator.pop(context); // quita el alertdialog antes de pasar a
+              //la siguiente ventana
+
+              if (index == 0) {
+                Session.carta1 = null;
+                print("carta1 removed");
+              } else if (index == 1) {
+                Session.carta2 = null;
+                print("carta2 removed");
+              } else if (index == 2) {
+                Session.carta3 = null;
+                print("carta3 removed");
+              }
+
+              FirebaseFirestore.instance
+                  .collection('partidas')
+                  .doc(Session.codigoPartida)
+                  .update({'textoPregunta': pregunta});
+
+              FirebaseFirestore.instance.collection('reemplazar_pregunta').add({
+                'pregunta': pregunta,
+              });
+            },
+          );
+        },
+      ),
+    );
+  }
+
   _showMessageDialog(BuildContext context, String titulo) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -1065,18 +1106,22 @@ class _Screen4State extends State<Screen4> {
             onPressed: () {
               Navigator.pop(context);
 
-              FirebaseFirestore.instance
-                  .collection('partidas')
-                  .doc(Session.codigoPartida)
-                  .update({'textoPregunta': pregunta});
+              _showEligePreguntaReemplazarDialog(
+                  context, "Elige la pregunta que quieres reemplazar", pregunta);
 
-              FirebaseFirestore.instance.collection('reemplazar_pregunta').add({
-                'pregunta': pregunta,
-              });
             },
           ),
         ],
       ),
     );
   }
+
+  _showEligePreguntaReemplazarDialog(BuildContext context, String titulo, String pregunta) =>
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(titulo),
+          content: eligePreguntaReemplazarContainer(pregunta),
+        ),
+      );
 }
