@@ -26,7 +26,7 @@ class _Screen1State extends State<Screen1> {
   bool violetaSeleccionado = false;
   bool moradoSeleccionado = false;
 
-  bool esNuevaPartida;
+  bool esNuevaPartida = false;
 
   TextEditingController codigoPartidaController = TextEditingController()
     ..text = '';
