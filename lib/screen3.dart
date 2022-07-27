@@ -317,6 +317,7 @@ class _Screen3State extends State<Screen3> {
                   children: [
                     IconButton(
                       icon: Image.asset('assets/icono_boton_off_salir.png'),
+                      iconSize: 70,
                       onPressed: () {
                         FirebaseFirestore.instance
                             .collection('partidas')
@@ -376,7 +377,7 @@ class _Screen3State extends State<Screen3> {
                 ],
               ),
             ),
-            Row(
+            /*Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
@@ -392,7 +393,7 @@ class _Screen3State extends State<Screen3> {
                   onPressed: null,
                 ),
               ],
-            ),
+            ),*/
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

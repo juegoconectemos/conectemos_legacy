@@ -155,7 +155,7 @@ class _Screen5State extends State<Screen5> {
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //Text('Responde: ' + responde),
@@ -235,7 +235,7 @@ class _Screen5State extends State<Screen5> {
                     style: TextStyle(
                       fontFamily: "GillSans",
                       fontWeight: FontWeight.normal,
-                      fontSize: 33,
+                      fontSize: 26,
                       color: Colors.white,
                     ),
                   ),
