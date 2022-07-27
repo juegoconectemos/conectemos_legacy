@@ -577,7 +577,7 @@ List<String> mano;
 
 String imagenBarraJugador = 'assets/barra_nombre.png';
 
-List<Image> circulos;
+List<Image> circulos = [];
 
 class Screen4 extends StatefulWidget {
   @override

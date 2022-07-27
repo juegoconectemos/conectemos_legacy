@@ -19,7 +19,7 @@ bool iguales = false;
 
 String imagenBarraJugador = 'assets/barra_nombre.png';
 
-List<Image> circulos;
+List<Image> circulos = [];
 
 class Screen3 extends StatefulWidget {
   @override
