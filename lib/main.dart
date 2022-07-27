@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'instructions.dart';
 import 'screen0.dart';
 import 'screen2.dart';
+import 'rules.dart';
 
 void main() {
   // Para que la app entera funcione sólo en portrait mode
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/screen4': (context) => Screen4(),
         '/screen5': (context) => Screen5(),
         '/instructions': (context) => Instructions(),
+        '/rules': (context) => Rules(),
       },
     );
   }

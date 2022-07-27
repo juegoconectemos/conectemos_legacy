@@ -56,7 +56,9 @@ class _Screen0State extends State<Screen0> {
                 IconButton(
                   icon: Image.asset('assets/reglas_con_texto.png'),
                   iconSize: 100,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/rules');
+                  },
                 ),
                 // RaisedButton(
                 //   onPressed: () {
