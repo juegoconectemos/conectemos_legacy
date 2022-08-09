@@ -70,7 +70,6 @@ flutter:
     - assets/icono_respondo_opaco.png
     - assets/icono_tus_cartas_opaco.png
     - assets/icono_tus_cartas.png
-    #- assets/disco_central_para_texto2.png
     - assets/disco_elige_tu_comodin.png
     - assets/disco_central_para_todos.png
     - assets/disco_central_para_uno.png
@@ -112,9 +111,6 @@ flutter:
     - assets/jugador_violeta_con_circulo.png
     - assets/jugador_morado.png
     - assets/jugador_morado_con_circulo.png
-    - assets/protruding_squares.svg
-    - assets/fondo3.svg
-    - assets/fondo1.svg
     - assets/circulo_preguntas.png
     - assets/icono_ok.png
     - assets/icono_ok_opaco.png
