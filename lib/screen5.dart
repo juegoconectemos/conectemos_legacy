@@ -63,9 +63,13 @@ class _Screen5State extends State<Screen5> {
               'pregunta': textoPreguntaTmp,
             });
           }
-          // Ocurre cuando el usuario que pregunta está conforme con la respuesta y presionado OK
-          Navigator.pushReplacementNamed(context, '/screen3');
-          // Hace que se cierre el screen5 a todos los jugadores
+          if (mounted) {
+            // Ocurre cuando el usuario que pregunta está conforme con la respuesta y presionado OK
+            //Navigator.pushReplacementNamed(context, '/screen3');
+            Navigator.of(context, rootNavigator: true)
+              .pushReplacementNamed('/screen3');
+            // Hace que se cierre el screen5 a todos los jugadores
+          }
         } else {
           textoPreguntaTmp = textoPregunta;
 
@@ -128,7 +132,9 @@ class _Screen5State extends State<Screen5> {
             break;
         }
 
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       });
     });
   }

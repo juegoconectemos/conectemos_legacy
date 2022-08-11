@@ -123,7 +123,19 @@ class _Screen3State extends State<Screen3> {
         pregunta = doc.get('pregunta');
 
         if (responde.isNotEmpty && pregunta.isNotEmpty) {
-          Navigator.pushReplacementNamed(context, '/screen4');
+          if (mounted) {
+            // Por alguna razón en ciertas ocaciones, al llamar a pushReplacementNamed
+            // ocurre una excepción "Navigator has no active routes to replace"
+            // y la pantalla se pone negra
+            // Para evitar ese problema primero debemos verificar que se puede hacer
+            // pop
+            if (Navigator.canPop(context)) {
+              Navigator.of(context, rootNavigator: true)
+                  .pushReplacementNamed('/screen4');
+            } else {
+              Navigator.pushNamed(context, '/screen4');
+            }
+          }
         } else {
           print('Screen3 - responde no está definido aún');
           print('Screen3 - pregunta no está definido aún');
@@ -254,7 +266,9 @@ class _Screen3State extends State<Screen3> {
           Session.comodin3ocupado = false;
         }
 
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       });
     });
   }
@@ -415,9 +429,11 @@ class _Screen3State extends State<Screen3> {
                           print("Nombre del jugador: " +
                               jugadores[jugadorAleatorio]);
 
-                          Navigator.pop(
-                              context); // quita el alertdialog antes de pasar a
+                          //Navigator.pop(context); // quita el alertdialog antes de pasar a
                           //la siguiente ventana
+
+                          Navigator.of(context, rootNavigator: true).pop();
+
                           FirebaseFirestore.instance
                               .collection('partidas')
                               .doc(Session.codigoPartida)
@@ -477,7 +493,8 @@ class _Screen3State extends State<Screen3> {
           return ListTile(
             title: Text(jugadores[index]),
             onTap: () {
-              Navigator.pop(context); // quita el alertdialog antes de pasar a
+              //Navigator.pop(context); // quita el alertdialog antes de pasar a
+              Navigator.of(context, rootNavigator: true).pop();
 
               FirebaseFirestore.instance
                   .collection('partidas')
@@ -513,8 +530,9 @@ class _Screen3State extends State<Screen3> {
           return ListTile(
             title: Text(jugadores[index]),
             onTap: () {
-              Navigator.pop(context); // quita el alertdialog antes de pasar a
+              //Navigator.pop(context); // quita el alertdialog antes de pasar a
               //la siguiente ventana
+              Navigator.of(context, rootNavigator: true).pop();
 
               FirebaseFirestore.instance
                   .collection('partidas')

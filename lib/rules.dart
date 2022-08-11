@@ -30,7 +30,9 @@ class _SplashState extends State<Rules> {
             child: GestureDetector(
               onTap: () {
                 //Navigator.pushNamed(context, '/screen0', arguments: {});
-                Navigator.pop(context);
+                //Navigator.pop(context);
+                Navigator.of(context, rootNavigator: true).pop();
+
               },
               child: Image.asset(
                 'assets/reglas.png',

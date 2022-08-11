@@ -671,7 +671,11 @@ class _Screen4State extends State<Screen4> {
         textoPregunta = doc.get('textoPregunta');
 
         if (textoPregunta.isNotEmpty) {
-          Navigator.pushReplacementNamed(context, '/screen5');
+          //Navigator.pushReplacementNamed(context, '/screen5');
+          if (mounted) {
+          Navigator.of(context, rootNavigator: true)
+              .pushReplacementNamed('/screen5');
+          }
         } else {
           print('Screen4 - textoPregunta no está definido aún');
         }
@@ -790,7 +794,10 @@ class _Screen4State extends State<Screen4> {
 
             break;
         }
-        setState(() {}); // NO SE SI VA DENTRO DEL {} anterior o no
+
+        if (mounted) {
+          setState(() {}); // NO SE SI VA DENTRO DEL {} anterior o no
+        }
       });
     });
 
@@ -1003,8 +1010,9 @@ class _Screen4State extends State<Screen4> {
           return ListTile(
             title: Text(mano[index]),
             onTap: () {
-              Navigator.pop(context); // quita el alertdialog antes de pasar a
+              //Navigator.pop(context); // quita el alertdialog antes de pasar a
               //la siguiente ventana
+              Navigator.of(context, rootNavigator: true).pop();
 
               if (index == 0) {
                 Session.carta1 = null;
@@ -1040,8 +1048,9 @@ class _Screen4State extends State<Screen4> {
           return ListTile(
             title: Text(mano[index]),
             onTap: () {
-              Navigator.pop(context); // quita el alertdialog antes de pasar a
+              //Navigator.pop(context); // quita el alertdialog antes de pasar a
               //la siguiente ventana
+              Navigator.of(context, rootNavigator: true).pop();
 
               if (index == 0) {
                 Session.carta1 = null;
@@ -1078,7 +1087,9 @@ class _Screen4State extends State<Screen4> {
             FlatButton(
               child: Text("Reemplazar pregunta por una propia"),
               onPressed: () {
-                Navigator.pop(context);
+                //Navigator.pop(context);
+                Navigator.of(context, rootNavigator: true).pop();
+
                 _showTextoPreguntaReemplazarDialog(
                     context, "Ingresa tu propia pregunta");
               },
@@ -1104,7 +1115,8 @@ class _Screen4State extends State<Screen4> {
           FlatButton(
             child: Text("Reemplazar"),
             onPressed: () {
-              Navigator.pop(context);
+              //Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop();
 
               _showEligePreguntaReemplazarDialog(
                   context, "Elige la pregunta que quieres reemplazar", pregunta);
