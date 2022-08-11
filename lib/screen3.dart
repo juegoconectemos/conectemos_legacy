@@ -418,29 +418,7 @@ class _Screen3State extends State<Screen3> {
                   iconSize: 70,
                   onPressed: (iguales && Session.comodin1ocupado == false)
                       ? () {
-                          Random random = Random();
-                          int jugadorAleatorio =
-                              random.nextInt(jugadores.length);
-
-                          print("Total jugadores: " +
-                              (jugadores.length).toString());
-                          print("Jugador aleatorio: " +
-                              jugadorAleatorio.toString());
-                          print("Nombre del jugador: " +
-                              jugadores[jugadorAleatorio]);
-
-                          //Navigator.pop(context); // quita el alertdialog antes de pasar a
-                          //la siguiente ventana
-
-                          Navigator.of(context, rootNavigator: true).pop();
-
-                          FirebaseFirestore.instance
-                              .collection('partidas')
-                              .doc(Session.codigoPartida)
-                              .update({
-                            'responde': nombreJugadorTurno,
-                            'pregunta': jugadores[jugadorAleatorio]
-                          }).then((value) => Session.comodin1ocupado = true);
+                          _showMessageDialogRespondo(context, 'Elige quién pregunta');
                         }
                       : null,
                 ),
