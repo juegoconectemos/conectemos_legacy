@@ -601,10 +601,25 @@ class _Screen1State extends State<Screen1> {
                                 "¡Hola, te invito a jugar Conectemos! el código de la partida es $codPart");
                           } else {
                             print('Screen1 - No existe la partida $codPart');
+
+                            const snackBar = SnackBar(
+                              content:
+                                  Text('El código de la partida no es válido'),
+                            );
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                           }
                         });
                       } else {
                         print('Screen1 - La partida $codPart es inválida');
+
+                        const snackBar = SnackBar(
+                          content:
+                              Text('Debes ingresar el código de la partida'),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                   ),
@@ -616,57 +631,103 @@ class _Screen1State extends State<Screen1> {
                     icon: Image.asset('assets/icono_ok_sin_texto.png'),
                     iconSize: 60,
                     onPressed: () {
-                      // Falta chequear que la partida existe (código es válido)
-                      /*if (codigoPartida != null && codigoPartida != '') {
-                        FirebaseFirestore.instance
-                            .collection('partidas')
-                            .doc(codigoPartida)
-                            .collection('jugadores')
-                            .add({'nombre': 'Anisa'}).then((documentRef) => print(
-                                'Screen1 - Ingresado en la partida $codigoPartida jugador ' +
-                                    documentRef.id));
-
-                        Navigator.pushNamed(context, '/screen2',
-                            arguments: codigoPartida);
-                      } else {
-                        print(
-                            'Screen1 - La partida con código $codigoPartida no es válido');
-                      }*/
-                      //Navigator.pushNamed(context, '/screen2',
-                      //    arguments: codigoPartida);
-
                       if (codigoPartidaController.text != null &&
                           nombreJugadorController.text != null &&
                           codigoPartidaController.text != '' &&
                           nombreJugadorController.text != '' &&
                           Session.colorSeleccionado != null &&
                           Session.colorSeleccionado != '') {
-                        // FALTA VALIDAR EL NOMBRE DEL JUGADOR Y QUE NO ESTE OCUPADO POR OTRO JUGADOR EN LA MISMA PARTIDA
-                        // FALTA VALIDAR QUE EL COLOR SELECCIONADO NO ESTE UTILIZADO POR OTRO JUGADOR
 
                         Session.nombreJugador = nombreJugadorController.text;
                         Session.codigoPartida = codigoPartidaController.text;
 
-                        FirebaseFirestore.instance
-                            .collection('partidas')
-                            .doc(codigoPartidaController.text)
-                            .update({
-                              'jugadores': FieldValue.arrayUnion(
-                                [nombreJugadorController.text],
-                              ),
-                              'colores': FieldValue.arrayUnion(
-                                [Session.colorSeleccionado],
-                              ),
-                            })
-                            .then(
-                              (value) => {
-                                Navigator.pushReplacementNamed(
-                                    context, '/screen3'),
-                              },
-                            )
-                            .catchError((error) => print("$error"));
+                        if (esNuevaPartida) {
+                          FirebaseFirestore.instance
+                          .collection('partidas')
+                          .doc(codigoPartidaController.text)
+                          .update({
+                            'jugadores': FieldValue.arrayUnion(
+                              [nombreJugadorController.text],
+                            ),
+                            'colores': FieldValue.arrayUnion(
+                              [Session.colorSeleccionado],
+                            ),
+                          })
+                          .then(
+                            (value) => {
+                              Navigator.pushReplacementNamed(
+                                  context, '/screen3'),
+                            },
+                          )
+                          .catchError((error) => print("$error"));
+                        } else {
+                          FirebaseFirestore.instance
+                          .collection('partidas')
+                          .doc(codigoPartidaController.text)
+                          .get()
+                          .then((doc) {
+                            if (doc.exists) {
+                              List jugadores = doc.get('jugadores');
+                              List colores = doc.get('colores');
 
+                              if (jugadores
+                                  .contains(nombreJugadorController.text)) {
+                                const snackBar = SnackBar(
+                                  content: Text(
+                                      'El nombre del jugador ya existe, selecciona otro nombre'),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              } else if (colores
+                                  .contains(Session.colorSeleccionado)) {
+                                const snackBar = SnackBar(
+                                  content: Text(
+                                      'El color del jugador ya existe, selecciona otro color'),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              } else {
+                                FirebaseFirestore.instance
+                                    .collection('partidas')
+                                    .doc(codigoPartidaController.text)
+                                    .update({
+                                      'jugadores': FieldValue.arrayUnion(
+                                        [nombreJugadorController.text],
+                                      ),
+                                      'colores': FieldValue.arrayUnion(
+                                        [Session.colorSeleccionado],
+                                      ),
+                                    })
+                                    .then(
+                                      (value) => {
+                                        Navigator.pushReplacementNamed(
+                                            context, '/screen3'),
+                                      },
+                                    )
+                                    .catchError((error) => print("$error"));
+                              }
+                            } else {
+                              const snackBar = SnackBar(
+                                content: Text(
+                                    'No existe una partida con ese código'),
+                              );
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+
+                          });
+                        }
                         // ME ESTOY SALTANDO EL SCREEN2
+                      } else {
+                        const snackBar = SnackBar(
+                          content: Text(
+                            'Debes rellenar todos los campos y seleccionar un color'),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                   ),
