@@ -810,39 +810,9 @@ class _Screen4State extends State<Screen4> {
 
     print("Cartas: $carta1 $carta2 $carta3");
 
-    if (carta1 == null) {
-      int randomInt;
-      do {
-        randomInt = Random().nextInt(preguntas.length);
-      } while (cartas.contains(randomInt));
-      carta1 = randomInt;
-      print("carta1 $carta1");
-      Session.carta1 = carta1;
-    }
-
     cartas.add(carta1);
 
-    if (carta2 == null) {
-      int randomInt;
-      do {
-        randomInt = Random().nextInt(preguntas.length);
-      } while (cartas.contains(randomInt));
-      carta2 = randomInt;
-      print("carta2 $carta2");
-      Session.carta2 = carta2;
-    }
-
     cartas.add(carta2);
-
-    if (carta3 == null) {
-      int randomInt;
-      do {
-        randomInt = Random().nextInt(preguntas.length);
-      } while (cartas.contains(randomInt));
-      carta3 = randomInt;
-      print("carta3 $carta3");
-      Session.carta3 = carta3;
-    }
 
     cartas.add(carta3);
 

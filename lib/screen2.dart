@@ -128,7 +128,7 @@ class _Screen2State extends State<Screen2> with WidgetsBindingObserver {
     //BACK NO SE DESCONECTA
 
     // Se deja de escuchar el estado de (.info/connected)
-    subscription?.cancel();
+    subscription.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }

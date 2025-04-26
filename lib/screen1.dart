@@ -589,7 +589,7 @@ class _Screen1State extends State<Screen1> {
                     onPressed: () {
                       // Falta chequear que la partida existe (código es válido)
                       String codPart = codigoPartidaController.text;
-                      if (codPart != null && codPart != '') {
+                      if (codPart != '') {
                         FirebaseFirestore.instance
                             .collection('partidas')
                             .doc(codPart)

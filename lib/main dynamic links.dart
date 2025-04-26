@@ -74,16 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
       onSuccess: (PendingDynamicLinkData dynamicLink) async {
         final Uri deepLink = dynamicLink?.link;
 
-        if (deepLink != null) {
-          //Navigator.pushNamed(context, deepLink.path);
-          print('Initial link onlink: ' + deepLink.toString());
-          print('Initial link path onlink: ' + deepLink.path.toString());
-          print('Initial link parameter value onlink: ' +
-              deepLink.queryParameters['partida_id'].toString());
-        } else {
-          print('Initial Link onlink is null');
-        }
-      },
+        //Navigator.pushNamed(context, deepLink.path);
+        print('Initial link onlink: ' + deepLink.toString());
+        print('Initial link path onlink: ' + deepLink.path.toString());
+        print('Initial link parameter value onlink: ' +
+            deepLink.queryParameters['partida_id'].toString());
+            },
       onError: (OnLinkErrorException e) async {
         print('onLinkError');
         print(e.message);
@@ -94,14 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
         await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri deepLink = data?.link;
 
-    if (deepLink != null) {
-      //Creo que nunca cae acá dentro
-      print('Initial link getInitialLink: ' + deepLink.toString());
-      print('Initial link path getInitialLink: ' + deepLink.path.toString());
-    } else {
-      print('Initial link getInitialLink is null');
+    //Creo que nunca cae acá dentro
+    print('Initial link getInitialLink: ' + deepLink.toString());
+    print('Initial link path getInitialLink: ' + deepLink.path.toString());
     }
-  }
 
   Future<void> _createDynamicLink(bool short) async {
     var _random = new Random();
